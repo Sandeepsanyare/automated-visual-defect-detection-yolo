@@ -1,0 +1,45 @@
+\chapter{Results and Performance Evaluation}
+\label{sec:results}
+
+Here, the results of the experimental evaluations of the fine-tuned version of the YOLOv8 model for the six categories of industrial defects are summarized. We are mainly interested in the results obtained with Trial 20, as it provided the best results for most of the metrics presented in the following sections.
+
+\section{Quantitative Metrics}
+We used three metrics to measure the model's performance: Precision ($P$), Recall ($R$) and Mean Average Precision ($mAP$).
+
+\begin{enumerate}
+\item \textbf{mAP@50}: The mean average precision when the intersection over union (IoU) threshold is 0.5. Trial 20 obtained a nearly perfect score of **0.985**; thus, for almost all defects, the model identifies the correct class and has a reasonable bounding box.
+\item \textbf{mAP@50-95}: A more strict metric that calculates the mAP for a range of IoU thresholds from 0.5 to 0.95. This metric evaluates the tightness of the bounding boxes of the model. The value of **0.827** is significantly better than the values obtained by baseline YOLOv5 models recently published in literature for other industrial datasets.
+\end{enumerate}
+
+\section{Class-wise analysis}
+The confusion matrix (see Figure \ref{fig:cm}) shows some specific information about the behavior of each class:
+\begin{enumerate}
+\item \textbf{High-Performance Classes:} The classes "patches" and "inclusion" show almost 100\% accuracy because they are characterized by a high contrast and distinctive spectral signatures.
+\item \textbf{Morphological ambiguity:} There is a slight confusion between "crazing" and "pitted surface" at low-confidence thresholds. The reason is that the texture of the crazing may resemble the texture of the pits under certain conditions. Nevertheless, due to the higher resolution (448px) of the fine-tuned model, the confusion is much lower than what occurs in the base model.
+\end{enumerate}
+
+\section{Stability of convergence}
+The plots in Figure \ref{fig:results_plot}, present the evolution of the losses during training for the boxes, the classification and the Distribution Focal Loss (DFL):
+1. \textbf{Loss of Boxes:} Decrease steadily and stabilize around epoch 12 of Phase 2.
+2. \textbf{Loss Classification:} Decreases rapidly during the first few epochs; therefore, the C2f modules learn quickly the coarse signatures of the different types of defects.
+3. \textbf{Growth of mAP:} The increase of the mAP observed at the beginning of Phase 2 validates the proposed strategy of increasing the resolution of images. The model could extract finer and more discriminant features from the raw pixels that were previously hidden.
+
+\section{Comparison with Other Models}
+With respect to the initial baseline (Model 1, trained with 320px and constant augmentation), the Optuna-optimized Model 2 (Trial 20) presents a relative improvement of 15\% in mAP@50-95. The improvement is mainly due to the high-resolution fine-tuning and the disablement of the mosaic augmentation in the last phases of the training; these two aspects allow the model to perfectly localize small-scale inclusions and fine scratches.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=1.0\textwidth]{images/best_model_results.png}
+\caption{Evolution of the training metrics for Trial 20. The mAP grows steadily while the final loss is low and indicates a generalized model.}
+\label{fig:results_plot}
+\end{figure}
+
+\section{Qualitative Images}
+To validate the previous findings, we visually evaluated the validation predictions of the model. The model correctly identifies overlapping defects and remains confident (usually above 0.9) even in case of low-contrast lighting. The proposed tile-based approach allows the merging of the detection of the artificial boundaries, so the defects such as "scratches" remain continuous and correctly identified.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.8\textwidth]{images/best_model_cm.png}
+\caption{Confusion Matrix normalized. The strong diagonal trend confirms the good classification performance.}
+\label{fig:cm}
+\end{figure}

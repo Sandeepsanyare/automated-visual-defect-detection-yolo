@@ -1,0 +1,14 @@
+\chapter{Discussion: Shortcomings and Practical Challenges}
+\label{chap:discussion}
+Although the experimental results show high levels of accuracy, there are many practical challenges in the implementation of automated defect detection systems in a realistic production environment that need to be solved for industrial applicability.
+
+\section{Shortcomings and Possible Failure Modes}
+1. \textit{Sensitivity to Lighting}: The present model has been trained on images with relatively constant lighting conditions. Thus, variations in the amount or angle of illumination of the light source in a production line can result in "reflection" images that are similar in appearance to images of "scratches". The model will occasionally create false positive scratches on areas that have high reflectivity.
+2. \textit{Localization of Small Objects Near Boundaries}: Even though the tiling method described above reduces boundary issues by using a 20\% overlap between adjacent tiles, very small defects (such as small single pits) near the boundaries of the overlap area may occasionally be detected twice or with low confidence when the model does not have enough contextual information in one of the tiles to detect them.
+3. \textit{Data Bias}: Since crazing may occur much less often than scratches in actual manufacturing, if the data used to train the model is biased toward scratches, then the model will likely use a prior probability, which could lead to it slightly over-predicting the more common class in ambiguous cases.
+
+\section{Hardware Limitations}
+Since the time required for inference is acceptable for off-line evaluation but since the tiled inference needs to run on an NVIDIA GPU to be considered "real-time", running this on CPU-only edge devices would significantly increase the latency of the sliding window approach (which linearly scales with the number of tiles), therefore optimizing the tiling method for asynchronous or parallel execution is crucial for integrating this into mobile platforms.
+
+\section{Ethical and Social Aspects}
+Transitioning to AI-based quality control raises concerns regarding job displacement. We believe however that the role of these technologies should be seen as Augmented Intelligence, allowing expert humans to move away from tedious, stressful visual monitoring tasks to focusing on identifying root causes of problems and improving overall processes.

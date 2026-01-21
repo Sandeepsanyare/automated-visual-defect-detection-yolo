@@ -1,0 +1,334 @@
+\chapter{Theory}
+\section{An Overview of AOI and One-Stage Detector Evolutions}
+
+Moving from manual inspections to Automated Optical Inspection (AOI) represents a major paradigm shift for industrial manufacturing; the requirements of Industry 4.0 mandate this transformation. Therefore, in order to find surface defects ranging from micro-inclusions in semiconductors to large-scale structural cracks in steel beams, computer vision systems must be able to meet the competing demands of high accuracy and real time processing.
+
+Traditional two-stage detectors such as Faster R-CNN \cite{Ren2017} have traditionally provided higher localization accuracy using Region Proposal Networks (RPN), however due to the high computational costs associated with these detectors they are inappropriate for use on high-volume manufacturing lines that require inference times to be under 30 milliseconds. Therefore, the You Only Look Once (YOLO) family of architectures \cite{redmon2016you} has become the most popular method used for object detection, in that YOLO views object detection as a unified regression problem that predicts both bounding boxes and class probabilities during a single forward pass through the detector. This report will provide a comprehensive theoretical review of YOLOv8, one of the latest versions of YOLO, developed by Ultralytics in 2023 \cite{yolov8}, that focuses on its application to defect detection.
+
+In order to fully comprehend why the proposed defect detection system performs better than other approaches, we need to evaluate the architecture of YOLOv8, specifically the "s" (small) variant, as this version offers an optimal combination of parameter count and representative power, allowing it to be implemented on edge-computing platforms such as the NVIDIA Jetson Orin or Raspberry Pi 5, without compromising its state-of-the-art accuracy.
+
+\subsection{YOLO Architectural Developments for Use in Industry}
+Over time, each new YOLO iteration has increased in terms of complexity, all in an effort to improve the "speed-accuracy trade-off." The first few iterations of YOLO (i.e., v1 through v3) \cite{redmon2016you, redmon2017yolo9000, redmon2018yolov3} utilized the Darknet backbone to maximize inference speed, however they were limited in their ability to detect smaller objects within images, which is a major issue when dealing with defect detection applications, since defects such as "pinholes" or "scratches" could represent less than .01 percent of the total number of pixels in an image. YOLOv4 \cite{bochkovskiy2020yolov4} and YOLOv5 \cite{jocher2020yolov5} improved upon earlier iterations by introducing the Cross-Stage Partial (CSP) network structure \cite{wang2019} to reduce redundant gradients; YOLOv8 expands upon this idea. YOLOv8 can be viewed as the culmination of these advancements and integrates design philosophies from YOLOv5, YOLOX \cite{ge2021yolox}, YOLOv6 \cite{li2022yolov6}, and YOLOv7 \cite{wang2023yolov7}. YOLOv8 is a unifying framework for performing object detection, instance segmentation, and image classification, although its greatest impact on industrial inspection is derived from three significant architectural improvements: the gradient-rich C2f backbone, the decoupled anchor-free head, and the Task-Aligned Assigning (TAL) strategy for label assignment.
+
+\subsection{The Specialized Challenges of Defect Detection}
+Defect detection presents a unique set of theoretical challenges compared to general object detection (e.g., COCO dataset \cite{Lin2014}):
+
+\begin{itemize}
+\item \textbf{Extreme Scale Variance:} Defects can vary significantly in size; some defects (e.g., a "rolled-in scale") cover a full 50 percent of a steel sheet, whereas others (e.g., a "micro-crack") cover only a fraction of a solar panel. The architecture should be able to demonstrate semantic coherency over the entire range of sizes.
+\item \textbf{Ambiguous Boundaries:} Unlike discrete objects (e.g., "cars", "pedestrians"), defects often have fuzzy boundaries into the surrounding healthy background (e.g., an oil stain on fabric); therefore, the architecture must produce probabilistic bounding box regressions instead of deterministic ones.
+\item \textbf{Irregular Aspect Ratios:} Defects do not follow typical aspect ratios. For example, a scratch might have a 1:50 ratio, while an inclusion would have a 1:1 ratio. Many anchor-based methods fail to address irregular aspect ratios; hence, the anchor-free method used by YOLOv8 is required.
+\end{itemize}
+
+The following sections detail how YOLOv8's architecture theoretically addresses these challenges.
+
+\section{The Backbone: Feature Extraction Mechanics}
+
+The backbone of YOLOv8 provides a hierarchical representation of the input image by leveraging a modified version of CSPDarknet53 \cite{bochkovskiy2020yolov4} to optimize gradient flow and feature reuse.
+
+\subsection{The C2f Module: Optimizing Gradient Flow}
+YOLOv8's backbone incorporates a novel C2f (CSPLayer\_2Conv) module instead of the traditional C3 modules used in YOLOv5. The theoretical motivation for this innovation comes from the design of the ELAN (Efficient Layer Aggregation Network) presented in YOLOv7 \cite{wang2023yolov7}, which highlighted the importance of minimizing gradient flow distance and increasing gradient flow diversity.
+
+\subsubsection{SP Design and Feature-Split Operations}
+Cross-Stage Partial (CSP) networks \cite{wang2019} were developed to eliminate redundant gradient information in large-scale neural network architectures. Each stage of a CSP network processes the input feature map in two separate ways. Each C2f module in YOLOv8 further enhances this concept by performing additional distinct feature-split and concatenation operations to provide even greater gradient flow.
+
+The mathematical expression describing how each C2f module processes its input is defined as follows:
+
+\textbf{Input Tensor Projection:} The input tensor is projected onto a lower dimensional space via a 1 x 1 convolution operation (a CBS block):
+
+\begin{equation}
+X_{proj} = \sigma(BN(Conv_{1\times1}(X)))
+\end{equation}
+Here,  is the SiLU (Sigmoid Linear Unit) activation function \cite{elfwing2018sigmoid}, and BN represents batch normalization.
+
+\textbf{Feature-Split Operation:} The projected input tensor  is split into two tensors,  and , according to their channel dimension. Each split enables multiple pathways of feature-flow information to propagate.
+
+\textbf{Bottleneck Processing:} Unlike the single pathway provided by the C3 design, the C2f design enables all intermediate outputs of the n bottleneck layers, denoted as , to contribute to the final concatenated output. Specifically, the output of the i-th bottleneck layer is expressed as:
+
+\begin{equation}
+Y_i = B_i(Y_{i-1})
+\end{equation}
+where  is one of the input-split tensors.
+
+\textbf{Final Concatenation:} The C2f module performs a final concatenation of the split-input tensor and all the intermediate bottleneck layer outputs.
+
+\textbf{Output Projection:} Finally, the concatenated tensor is processed through a final 1 x 1 convolution operation to restore the channel-dimensionality.
+
+\textbf{Implications for Defect Detection:}
+By providing a "richer gradient flow", the C2f module facilitates defect detection tasks. Most industrial defects exhibit characteristics that are difficult to detect due to their subtle appearance (low-contrast scratches, or texture anomalies) and may be lost during the back-propagation of gradients in deep networks, or through aggressive down-sampling. The C2f module provides a mechanism for preserving both low-level texture information (relevant to the defect surface properties) and high-level semantic information (relevant to the defect classification).
+
+\subsection{Convolutional Modifications: From 6x6 to 3x3 Kernels}
+YOLOv8 replaces the first 6x6 convolution layer (stem-layer) of YOLOv5 with a 3x3 convolution layer.
+
+\begin{itemize}
+\item Kernel Dimension: 
+\item Stride: 
+\item Padding: 
+\end{itemize}
+
+The design philosophy behind YOLOv8's use of smaller 3x3 kernels is based on the VGG approach \cite{simonyan2014} to stacking many small kernels to maximize non-linearities, while reducing the number of model parameters. The reduction in kernel size from 6x6 to 3x3 is beneficial for small defect detection. A large kernel (6x6) will aggregate information across a very large area almost immediately, and therefore may lose the high frequency spatial detail necessary for detecting micro-defects such as pin-holes or dust on solar panels. Using a 3x3 kernel preserves some spatial resolution in the early layers, and thus permits a finer level of granularity in the features extracted.
+
+\subsection{Spatial Pyramid Pooling Fast (SPPF): Increasing the Receptive Field}
+Finally, YOLOv8 includes the Spatial Pyramid Pooling Fast (SPPF) module at the end of the backbone. This module was designed to increase the receptive field of the network without affecting speed too much.
+
+SPPF operates sequentially (instead of in parallel) and performs multiple max-pooling operations on its input tensor X:
+
+\begin{align}
+Y_1 &= \mathrm{MaxPool}(X, k=5) \
+Y_2 &= \mathrm{MaxPool}(Y_1, k=5) \
+Y_3 &= \mathrm{MaxPool}(Y_2, k=5)
+\end{align}
+
+\begin{equation}
+\mathrm{Output} = Conv_{1\times1}(\mathrm{Concat}(X, Y_1, Y_2, Y_3))
+\end{equation}
+Theoretically, executing three consecutive 5x5 pooling layers with stride 1 is mathematically equivalent to a single 13x13 pooling layer \cite{He2015}, but is more computationally efficient.
+
+\textbf{Utility for Defect Scale:} Defects vary widely in terms of scale. While a rolled-in scale defect on steel may occupy 20\% of the image area, a pitting defect occupies less than 0.1\%. The SPPF module combines features from various scales (receptive fields of 5x5, 9x9, 13x13) enabling the backbone to produce a feature map that is robust to varying object scales.
+
+\subsection{Lightweight Variants: GhostNet}
+Research into industrial defect detection frequently adapts the CSP Darknet architecture for extreme efficiency. The inclusion of GhostNet modules (GhostConv and C3Ghost) is a common theoretical variant of the YOLOv8 backbone for industrial defect detection on resource-constrained systems. The basic principle behind GhostNet \cite{Han2019} is the assumption that feature maps in deep CNNs are highly redundant. Therefore, instead of computing the full set of feature maps using costly convolutional operations, GhostNet computes a limited number of "intrinsic" feature maps and uses inexpensive linear transformations (ghost) to compute additional "ghost" feature maps.
+
+\textbf{Parameter Reduction:} Replacing C2f with C3Ghost reduces the parameter count by approximately 32\%, and the FLOPS count by approximately 37\%, with minimal impact on accuracy.
+
+\textbf{Industrial Applicability:} The modification is theoretically justified for deployment on devices such as the Raspberry Pi or legacy PLC controllers where memory bandwidth is the primary constraint.
+
+\section{The Neck: Path Aggregation and Feature Fusion}
+
+The “Neck” of the object detector is a structural part of the object detector and connects the backbone and the detection head. The primary role of the Neck is to aggregate feature maps from different levels of the backbone and create a feature pyramid with strong semantics at all scales. YOLOv8 employs a Path Aggregation Network (PANet) structure \cite{liu2018path} that is an enhanced version of the Feature Pyramid Network (FPN) \cite{lin2017feature}.
+
+\subsection{FPN and PANet Mechanics}
+A standard CNN has deep layers that have high semantic values (i.e. identifying what an object is) and low spatial resolutions (i.e. poor at identifying exactly where an object is). Conversely, shallow layers have high spatial resolution but low semantics. FPN addresses this issue with a top-down pathway where the semantic information from the deeper layers is upsampled and combined with the spatial information from the shallower layers. YOLOv8's Neck enhances FPN with a bottom-up pathway (PANet) \cite{liu2018path}.
+
+\begin{itemize}
+\item \textbf{Top-Down Pathway:} Injects semantic information from level P5 (deepest) to level P3 (shallowest). This provides the ability to recognize defects (i.e. identify a “scratch” vs. a “wire”) due to the semantic information being passed down through the levels.
+\item \textbf{Bottom-Up Pathway:} Transfers the precise localization information from level P3 back to level P5 using downsampling convolutions and lateral connections.
+\end{itemize}
+
+\textbf{Structural Improvements in YOLOv8 Neck:}
+\begin{itemize}
+\item \textbf{Removing Convolutional Layers:} YOLOv8 removes the two convolutional connection layers found in the YOLOv5 Neck. This reduction in complexity and parameters reduces latency.
+\item \textbf{Feature Concatenation:} The fusion is performed via concatenation (Concat) rather than element-wise addition; thus preserving the channel-wise feature distribution from different scales.
+\item \textbf{Upsampling:} YOLOv8 uses nearest-neighbor upsampling to resize feature maps prior to concatenating them. Although a simple method of handling the scale mismatch in defect images, researchers have recently proposed using alternative methods such as DySample \cite{liu2023dream} and CARAFE (Content-Aware ReAssembly of FEatures) \cite{Wang2019a} in improved versions.
+\end{itemize}
+
+\subsection{Dealing with Multi-Scale Defects}
+The theoretical requirement for this bidirectional fusion stems from the nature of industrial defects.
+
+\begin{itemize}
+\item \textbf{Small Defects (e.g., Pits):} Require the high spatial resolution of P3 features. Without the Top-Down path, these features will lack the necessary semantic context to distinguish a pit from background noise.
+\item \textbf{Large Defects (e.g., Patches):} Require the large receptive field of P5 features. Without the Bottom-Up path, the localization of large defects will be imprecise because P5 features are too coarse.
+\end{itemize}
+PANet ensures that every level of the feature pyramid (P3, P4, P5) contain both strong semantic and strong spatial information, allowing for the simultaneous detection of "inclusions" (small) and "scratches" (large).
+
+\section{The Head: Decoupled and Anchor-Free Detection}
+
+The detection head is where the features are projected onto the final prediction: bounding box coordinates and class probability. YOLOv8 makes two paradigm-shifting changes to this component compared to its predecessors: the Decoupled Head and the Anchor-Free detection methodology.
+
+\subsection{The Decoupled Head Architecture}
+Prior YOLO versions (i.e. YOLOv5) had the classification and regression tasks share the same convolutional filters in the head until they branched off at the final layer. Although this "coupled" approach was efficient, it suffered theoretically from a misalignment of classification and localization.
+Classification requires translation invariance (a defect is a defect regardless of where it is). Regression (localization) requires translation covariance (if the defect moves, the box coordinates must move also). YOLOv8 employed a decoupled head, inspired by YOLOX \cite{ge2021yolox}.
+
+For each scale of the feature pyramid, the input feature map is split into two separate branches:
+\begin{itemize}
+\item \textbf{Regression Branch:} A series of convolutions dedicated to predicting the bounding box coordinates (and the Distribution Focal Loss parameters).
+\item \textbf{Classification Branch:} A series of convolutions dedicated to predicting the class scores.
+\end{itemize}
+
+\textbf{Mathematical Reasoning:}
+Research has demonstrated that decoupling these tasks results in faster convergence and increased accuracy because the specialized branches can learn features specific to their respective tasks without interfering with one another. For defect detection, this is especially important. A defect class (e.g. "rust") may rely on texture (classification features), whereas its location may rely on edge gradients (regression features). Decoupling allows the network to optimize for both separately.
+
+\subsection{Anchor-Free Detection}
+Anchor-based methods (traditional methods - e.g. YOLOv3, v4, v5, Faster R-CNN \cite{Ren2017}) use pre-defined anchor boxes with specific aspect ratios and scales. The model predicts offsets relative to these anchors.
+
+\textbf{Limitations of Anchors in Industry:}
+\begin{itemize}
+\item \textbf{Hyperparameter Sensitivity:} The performance of the model is heavily dependent on the choice of anchor boxes. If the chosen anchors do not match the aspect ratios of the defects (e.g. very long and thin scratches), then the recall rate will decrease.
+\item \textbf{Complexity:} Anchor-based methods generate a large number of possible boxes (candidate boxes), thereby greatly increasing the computational cost of NMS.
+\item \textbf{Irregular Shapes:} Industrial defects rarely follow standard aspect ratios (e.g. 1:1 or 2:1).
+\end{itemize}
+
+YOLOv8 employs an anchor-free approach. It predicts the center of the object directly and the distances from this center to the four corners of the bounding box. This is expressed as the 4D vector (l, t, r, b) that represents the distance from the grid center to the left, top, right, and bottom edges of the box.
+
+\textbf{Simplified Mathematical Representation:}
+By eliminating the anchor box priors, the regression task is reduced from learning complex logarithmic offsets (as in YOLOv5) to directly learning distributions of distances. This results in fewer design hyperparameters (therefore no need to perform K-means clustering on the dataset to determine optimal anchors) and typically results in greater generalization to novel defect shapes.
+
+\section{Label Assignment}
+The “Label Assignment” stage in object detection training determines how many of the grid cells or feature points assigned to an image should be classified as either “positive” (used for object detection) or “negative” (background).
+
+\subsection{The Transition from Static to Dynamic Label Assignment}
+Historically, the most common method was to use static label assignment (for example: if the Intersection Over Union (IoU) between the anchor and ground truth is greater than 0.5, then the anchor is labeled positive). However, using a static approach has several limitations. With static assignment, the label assignments are predetermined at test time and therefore cannot adjust dynamically to varying conditions in the data. Therefore, YOLOv8 uses a dynamic labeling strategy called the Task-Aligned Assigner (TAL) that was introduced in the TOOD (Task Aligned One Stage Object Detection) paper \cite{feng2021}.
+
+\subsection{Mathematical Description of TAL}
+TAL is a method for determining the optimal set of positive samples for classification and localization based upon a joint measure of both the classification performance of the model and the localization performance of the model. The joint measure used for determining the positive samples is defined as follows:
+
+\begin{equation}
+t = s^\alpha \times u^\beta
+\end{equation}
+Where:
+\begin{itemize}
+\item  represents the classification performance of the model.
+\item  represents the Intersection Over Union (IoU) between the predicted bounding box and the ground truth bounding box.
+\item  and  are user-defined parameters that represent the relative importance of the classification and localization metrics.
+\end{itemize}
+The default values used for these parameters in YOLOv8 are 0.5 and 6.0 respectively.
+
+\textbf{Logic of Selection:}
+For each ground truth object in the image, the assigner calculates t for all anchors or grid points that intersect with the ground truth object. The k best anchors or grid points with the highest t values are selected as positive samples for the object.
+
+\textbf{Importance for Industrial Inspection Tasks:}
+Industrial inspection datasets have several characteristics that make them challenging to work with. Annotations may be incomplete or uncertain (for example: Where does a stain begin and end?). The TAL method allows YOLOv8 to focus on learning from the highest quality predictions (both confident and accurately localized). This results in higher quality bounding boxes that are less likely to be rejected due to measurement errors. The emphasis placed on localization in the TAL method (using  in the equation) is intended to support the requirement to provide precise measurements of defect size and location in industrial inspection tasks.
+
+\section{Training Losses and Optimizer}
+
+Training of YOLOv8 is performed using a composite loss function that supports both classification and localization objectives. In addition to the binary cross entropy (BCE) loss function used to support classification, two additional loss functions are employed: complete intersection over union (CIoU) and distribution focal loss (DFL). These losses are combined as shown below to produce the total loss function.
+
+\begin{equation}
+L_{total} = \lambda_{cls}L_{cls} + \lambda_{box}L_{box} + \lambda_{dfl}L_{dfl}
+\end{equation}
+
+\subsection{Binary Cross Entropy (BCE) Loss Function for Classification}
+Classification is supported in YOLOv8 using the binary cross entropy (BCE) loss function on the class scores.
+
+\begin{equation}
+L_{cls} = - \sum_{i} [y_i \log(\hat{y}_i) + (1-y_i) \log(1-\hat{y}_i)]
+\end{equation}
+Unlike softmax cross entropy loss (which requires that classes are mutually exclusive), BCE allows for multi-label classification. For example, a defect could potentially be classified into more than one category (such as a scratch being a surface imperfection). As noted previously, YOLOv8 does not use a separate “objectness” loss function to determine whether there is an object present in the image. The presence of an object is determined directly from the class score.
+
+\subsection{Complete Intersection Over Union (CIoU) Loss Function for Localization}
+Localization is supported using the complete intersection over union (CIoU) loss function \cite{Zheng2020}. Traditional intersection over union (IoU) loss functions suffer from vanishing gradients because the IoU approaches zero when the bounding boxes do not intersect. CIoU addresses this problem through the incorporation of three geometric factors: the overlap area, the central point distance, and the aspect ratio.
+
+The CIoU formula:
+
+\begin{equation}
+L_{CIoU} = 1 - \mathrm{IoU} + \frac{\rho^2(\mathbf{b}, \mathbf{b}^{gt})}{c^2} + \alpha v
+\end{equation}
+Where:
+\begin{itemize}
+\item  represents the intersection over union.
+\item  represents the squared Euclidean distance between the centers of the predicted bounding box and the ground truth bounding box.
+\item  represents the diagonal of the minimum bounding box that encloses both the predicted bounding box and the ground truth bounding box.
+\item  is a tradeoff parameter defined as .
+\item  is a measure of the degree of similarity in the aspect ratios of the bounding boxes.
+\end{itemize}
+
+\begin{equation}
+v = \frac{4}{\pi^2} (\arctan\frac{w^{gt}}{h^{gt}} - \arctan\frac{w}{h})^2
+\end{equation}
+
+\textbf{Importance for Defects:}
+A key benefit of the aspect ratio term is its ability to enforce the model's understanding of the shape of industrial defects. Because scratches are often long and thin, the model would incur a large penalty if it were to predict a bounding box that is a square for a long and thin defect. Therefore, the model will tend to predict bounding boxes that have similar shapes to the actual defects, which enables better sizing and rejection of defects in metrology applications.
+
+\textbf{Alternative: SIoU and WIoU:}
+More recent papers on steel defect detection propose replacing the CIoU loss function with SIoU (Scylla IoU) \cite{gevorgyan2022} or WIoU (Wise IoU) \cite{Tong2023} loss functions. SIoU adds an angle cost term to the regression vector to speed up convergence of the model for very long defects such as cracks. WIoU includes a dynamic focusing mechanism to mitigate the effects of defective labels, which is helpful when labels for defects are noisy.
+
+\subsection{Distribution Focal Loss (DFL):}
+To account for the ambiguity in the locations of the defects, YOLOv8 employs the Distribution Focal Loss (DFL) loss function \cite{li2020}. Unlike traditional regression-based methods that attempt to precisely locate the edges of defects, DFL models the distance to each edge as a probability distribution over a range of possible distances. This provides a way for the model to express ambiguity in the locations of the defects.
+
+\textbf{Mathematical Formulation:}
+Each side of the bounding box is represented by a value within a range of possible distances (e.g. the distance from the center of the bounding box to the left edge of the bounding box). Each of these possible distances is assigned a discrete value (in this case, integers) ranging from 0 to \texttt{reg\_max} (where \texttt{reg\_max} is equal to 16 by default). The network predicts a Softmax probability distribution  over these possible distances.
+
+The average of the Softmax probability distribution is calculated as:
+
+\begin{equation}
+\hat{y} = \sum_{i=0}^{\text{reg\_max}} i \cdot S_i
+\end{equation}
+
+The goal of DFL is to encourage the Softmax probability distribution to peak near the correct value of the distance to the edge of the defect. When the correct distance to the edge of the defect lies between integer bins  and  (for example, between 3 and 4), DFL encourages the probabilities  and  to be high and suppresses the other probabilities.
+
+\begin{equation}
+L_{DFL}(S_i, S_{i+1}) = -((y_{i+1} - y)\log(S_i) + (y - y_i)\log(S_{i+1}))
+\end{equation}
+
+\textbf{Why DFL for Defects?}
+Edges of defects are often blurry. A bruise on an apple or an oil stain on fabric transition smoothly from defect to background. DFL permits the model to model this fuzziness. When the edge is sharp, the Softmax probability distribution will be sharply peaked. When the edge is fuzzy, the Softmax probability distribution will be flat. This probabilistic representation of the edge improves the robustness of the defect detector to noisy labels and blurry edges of defects.
+
+\section{Augmentation and Model Scaling}
+
+\subsection{Mosaic Augmentation}
+This technique creates a mosaic out of 4 images that are combined into a single training sample. The process of creating a mosaic involves: resize images, crop them and stitch them together in a 2x2 array format; the crop coordinates are randomly generated. The theoretical benefit of using a mosaic can be found in: contextual diversity—objects will learn to find objects in environments other than those they have been trained in, scale variation objects will have multiple scale sizes as they are resized and cropped, batch normalization —it can increase the effective batch size since BN stats are calculated over the input tensor and having 4 different images in one tensor increases the stability of BN stats. Importantly, mosaic is very useful when dealing with small defects due to the fact that it enables the model to view many small defects at once within a single training pass, thereby greatly increasing the training efficiency for all rare classes.
+
+It's also important to note that YOLOv8 turns off the mosaic augmentation after the first 10 epochs of training. As mentioned previously, this approach was first seen in YOLOX \cite{ge2021yolox} and is used to enable the model to fine tune the output on “real” images free of the Mosaic “artifacts” created by the extreme cropping performed by Mosaic.
+
+\subsection{Mixup Augmentation}
+In this method, an image and its label are linearly mixed with another image and its label \cite{Zhang2017}.
+
+\begin{equation}
+x_{\text{new}}=\lambda x_1+(1-\lambda)x_2
+\end{equation}
+
+\begin{equation}
+y_{\text{new}}=\lambda y_1+(1-\lambda)y_2
+\end{equation}
+Where .
+
+\textbf{Effect of Regularization:}
+The model is encouraged to produce linear outputs between samples for defect detection. Therefore, it is less likely to make confident predictions (i.e., 100\%) for noisy or light conditions which may affect the detection of defects. In addition, mixup can prevent the model from being too confident for ambiguous samples.
+
+\subsection{Model Scaling Parameters}
+In order to create models with varying complexity, YOLOv8 utilizes two parameters to define each model variant (n, s, m, l, x):
+\begin{itemize}
+\item depth multiple (d): defines how many C2f bottlenecks are present in the model;
+\item width multiple (w): defines how many channels are present in the convolutional layers of the model.
+\end{itemize}
+For example, in the case of YOLOv8s:
+\begin{itemize}
+\item depth multiple (d): 0.33 (this means it uses approximately 1/3rd of the bottlenecks of the Large model);
+\item width multiple (w): 0.50 (this means the number of channels in the convolutional layers is half of the number of channels of the base model).
+\end{itemize}
+
+\subsection{Flops vs. Performance Trade Off}
+Compared to YOLOv5s, YOLOv8s produces a larger number of floating point operations (FLOPs), however, it achieves a much greater mAP (Mean Average Precision).
+
+Data compiled from \cite{yolov8}.
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{lccccc}
+\toprule
+Model & Size (px) & mAP (50-95) & Parameters (M) & FLOPs (B) & Speed (ms, A100) \\
+\midrule
+YOLOv8n & 640 & 37.3 & 3.2 & 8.7 & 0.99 \\
+YOLOv8s & 640 & 44.9 & 11.2 & 28.6 & 1.20 \\
+YOLOv8m & 640 & 50.2 & 25.9 & 78.9 & 1.83 \\
+YOLOv8l & 640 & 52.9 & 43.7 & 165.2 & 2.39 \\
+YOLOv8x & 640 & 53.9 & 68.2 & 257.8 & 3.53 \\
+\bottomrule
+\end{tabular}
+\caption{YOLOv8 Variant Comparison (COCO Benchmark)}
+\label{tab:yolo_comparison}
+\end{table}
+
+The jump from "n" (nano) to "s" (small) provides a massive 7.6\% increase in mAP for a manageable increase in FLOPs. For industrial defects, which are harder to detect than COCO objects, the "nano" model often lacks the capacity to model complex textures, while the "medium" and "large" models introduce latency that may exceed the takt time of the production line. Thus, YOLOv8s is the theoretical "sweet spot".
+
+\section{Domain-Specific Application Analysis}
+Advancements in YOLOv8's theoretical attributes are reflected as improvements in specific industrial domains' performance.
+
+\subsection{Steel Surface Defect Detection}
+Defects in steel manufacturing are commonly “crazing,” “patches,” and “rolled-in scale.”
+\begin{itemize}
+\item \textbf{Problem:} Defects have low contrast (“grey-on-grey”) and vary greatly in scale.
+\item \textbf{YOLOv8 Solution:} The C2f module has a rich gradient flow that allows it to detect subtle texture variations. The SPPF module provides the ability to handle large variations in scale.
+\end{itemize}
+\textbf{Empirical Evidence:} Numerous studies have shown that the improved YOLOv8 models provide an average precision of greater than 84\% on steel datasets (NEU-DET \cite{neu-det}) and significantly outperform YOLOv5 because the improved feature fusion in the neck improves the ability of the model to identify defects at a distance.In addition, studies also report that using the SIoU loss function \cite{gevorgyan2022} instead of CIoU results in even better refinement of the regression of very flat, wide defects.
+
+\subsection{Photovoltaic (PV) Cell Inspection}
+Solar panels produce EL (Electroluminescence) images which can help identify hidden micro-cracks.
+\begin{itemize}
+\item \textbf{Problem:} These cracks are extremely thin (1-2 pixel width) and may appear similar to grain boundaries.
+\item \textbf{YOLOv8 Solution:} The anchor-free head is ideal for detecting micro-cracks. Anchor-based approaches fail to model the extreme aspect ratios of cracks. DFL aids the model in modeling the uncertainty associated with identifying the edges of the crack.
+\end{itemize}
+\textbf{Performance:} YOLOv8s has been found to achieve a mean Average Precision (mAP) of approximately 81.5\% on PV datasets and has surpassed both YOLOv7-tiny and YOLOv5s. Additional modifications such as including a P2 layer (a higher resolution detection head) can improve the detection of small defects.
+
+\subsection{Fabric and PCB Inspection}
+Inspections of printed circuit boards (PCBs) and textiles are subject to the problem of detecting small objects (tiny capacitors; fabric knots) among densely clustered objects.
+\begin{itemize}
+\item \textbf{YOLOv8 Solution:} The Task-Aligned Assigner \cite{feng2021} is used to ensure that only positive samples are chosen when they have a high degree of accurate localization. Otherwise, bounding box “drift” occurs in dense clusters.
+\item \textbf{Optimization:} Use of attention mechanisms (such as CBAM \cite{Woo2018} or SimAM \cite{yang2021simam}) within the C2f module allow the model to selectively focus on the defects rather than the repetitive background patterns in the fabric weave.
+\end{itemize}
+
+\section{Conclusion}
+The YOLOv8s architecture \cite{yolov8} demonstrates a sophisticated combination of current state-of-the-art computer vision advancements which are optimized for the tradeoff between accuracy and speed which is necessary in industrial settings. Its theoretical framework—consisting of the C2f backbone for improved feature gradients, the PANet neck for robust multiscale feature fusion, and the Decoupled Anchor-Free Head for precise localization—is designed to address the most common problems of defect detection: scale variance, irregularly shaped defects, and fuzzy boundaries.
+
+The advances in its loss functions (Distribution Focal Loss \cite{li2020} and the Task-Aligned Assigner \cite{feng2021}) extend the capabilities of the model beyond basic regression and enable it to estimate the uncertainty associated with each prediction and develop more effective representations of the shape and form of complex, non-standard defect geometries. Although YOLOv8 requires slightly more computational resources than YOLOv5, the significant increases in mean Average Precision (mAP) of YOLOv8 over YOLOv5 for small and irregularly-shaped objects make it the preferable theoretical approach for high-stakes industrial quality control systems.
+
+Potential future directions for this area include the development of further lightweighted versions through quantization and the integration of domain-specific attention mechanisms to manage the increasingly complex textures of the materials now being produced in modern manufacturing.

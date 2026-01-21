@@ -1,0 +1,25 @@
+\chapter{Justification for Choosing YOLOv8}
+
+
+\section{Justification for Choosing YOLOv8, As Opposed to More Recent Versions}
+At the time of this research, while subsequent versions of YOLO (i.e. YOLOv9\cite{redmon2017yolo9000}, YOLOv10\cite{Wang2024}, YOLOv11\cite{jocher2024yolo11}) have been published since the release of YOLOv8 in January 2023, the choice of YOLOv8 as the primary framework for this study is based on an evaluation of several criteria including model maturity and hardware support for industrial defect detection.
+
+\subsection{Model Ecosystem and Hardware Support}
+YOLOv8 has developed a mature enough ecosystem and sufficient hardware support to allow for wide-scale deployment compared to newer versions (i.e. YOLOv11) \cite{jocher2024yolo11}.
+
+\begin{itemize}
+    \item \textbf{Exporters for Industrial Frameworks:} YOLOv8 has stable exporters for use in industrial deployment frameworks (e.g. NVIDIA TensorRT, Intel OpenVINO, ONNX Runtime) to accelerate conversion of the model for deployment on edge devices. For a thesis focused on industrial applications, the reliability of converting models for deployment on edge devices is more important than the possible incremental improvements from experimental architectures.
+    \item \textbf{Peer Review/Validation:} YOLOv8 has been reviewed and validated by the academic community in the area of surface inspection whereas YOLOv11 has only recently been released (late 2024) and therefore does not have the same body of literature to compare against in terms of secondary literature.
+\end{itemize}
+
+\subsection{Tradeoffs in Newer Architectures}
+The newer versions of YOLO include new innovations but also make trade-offs that do not favor precision in defect detection:
+
+\begin{itemize}
+    \item \textbf{YOLOv9 (Additional Computational Cost):} YOLOv9 includes Programmable Gradient Information (PGI) to reduce the amount of information lost during processing; however, PGI increases the computational cost and memory required for training. In defect detection scenarios, the limiting factor is often dataset quality rather than the loss of gradient information, so the additional overhead of YOLOv9 is less efficient than previous versions for actual use \cite{redmon2017yolo9000}.
+    \item \textbf{YOLOv10 (Accuracy/Latency):} YOLOv10 represents a reduction in inference latency via the use of NMS-free training \cite{Wang2024}; while the NMS-free training is ideal for applications requiring very fast processing (e.g. robotics), it may result in some cases where multiple bounding boxes overlap (e.g. a cluster of pits) and therefore the removal of NMS may not always result in optimal performance.
+    \item \textbf{YOLOv11 (Stability and Performance Metrics):} Although YOLOv11 incorporates C2PSA blocks to improve the efficiency of backbones \cite{jocher2024yolo11}, the relative novelty of YOLOv11 results in the need for the broader research community to establish long-term stability and performance metrics for industrial-specific datasets.
+\end{itemize}
+
+\subsection{Standardization to Facilitate Comparative Analysis}
+In addition to providing a reliable benchmark for automated inspection, one of the goals of this thesis is to ensure that the experimental results are both reproducible and easily comparable to existing state-of-the-art benchmarks in the surface defect domain. Therefore, the use of YOLOv8 as the de facto standard in recent computer vision research will facilitate this goal.

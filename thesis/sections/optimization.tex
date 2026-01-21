@@ -1,0 +1,28 @@
+\chapter{Optimization and Training Methodology}
+\label{chap:optimization}
+
+Deep Learning Model Performance is very sensitive to the hyperparameters chosen. In an Industrial Defect Detection application, where the visual characteristics of each class are quite distinct, there is no simple way to find the Global Optimum for parameters like learning rate, weight decay, or box gain. The current Thesis has developed a Two Phase Optimization Strategy, powered by Optuna.
+
+\section{Phase 1: Bayesian Hyperparameter Search} 
+Grid Search and Random Search are traditional ways to perform hyperparameter searches. However, they are both inefficient when dealing with large search spaces. Grid Search suffers from the "Curse of Dimensionality" while Random Search may spend too much time searching in areas with low performance. Optuna’s TPE (Tree-structured Parzen Estimator) is used in this phase to perform a Bayesian Optimization. It creates a probability model of the Objective Function, and then uses this model to choose the most promising hyperparameters.
+
+The first phase was a Coarse Search using the TPE optimization method on 40 Epochs, with a Standard Image Size of $320 \times 320$. The Key Parameters were:
+\begin{itemize}
+    \item \textbf{Initial Learning Rate ($lr_0$):} Searched between $10^{-4}$ and $10^{-1}$ on a logarithmic scale.
+    \item \textbf{Optimizer:} Categorical choice between SGD and AdamW.
+    \item \textbf{Weight Decay:} Balanced regularized between $10^{-5}$ and $10^{-2}$.
+\end{itemize}
+In order to assure the model learned strong geometric augmentation early in the training process, we implemented a 100% mosaic probability and 10% mix-up probability as part of our geometric data augmentation strategy.
+
+\section{Phase 2: High-Resolution Fine-Tuning}
+Following identification of the most effective optimizer configurations in Phase 1, we proceeded with a fine-tuning phase designed to capitalize on the benefits of increasing resolution and reduce the need for aggressive augmentations. The primary differences between this fine-tuning phase and normal training include:
+
+1. \textbf{Resolution scaling}: We increased the image size from 320x320 to 448x448 pixels. This is a 40\% increase in the number of pixels per image which increases the signal-to-noise ratio for images containing very small objects such as pits or inclusions.
+2. \textbf{Augmentation decay}: We disabled all aggressive augmentations (mosaic and mix-up). In this phase, we want the model to learn the exact locations and shapes of surface imperfections; therefore, it needs to be trained on real, non-distorted images.
+3. \textbf{Refined Learning Rates}: Our search space for initial learning rates was reduced to minimize the risk of overshooting the local minima identified in Phase 1 ($5 \times 10^{-5}$ to $5 \times 10^{-3}$).
+
+\section{Hyperparameter Evolution}
+Trial 20 was identified by the system as the "best trial," demonstrating the convergence of these two phases of training. Trial 20 selected an AdamW optimizer with a refined learning rate. The use of the adaptive moment estimator (a type of momentum-based optimization algorithm), assisted the optimizer to find its way through the complex loss function of the NEU-style dataset better than the standard stochastic gradient descent (SGD) method. Additionally, the cosine learning rate decay strategy provided stability to the models weights, reducing the likelihood of catastrophic forgetting when transitioning from low-resolution to high-resolution.
+
+\section{Computational Efficiency}
+We ran the training until one of two conditions occurred: (i) The validation mAP@50-95 stopped improving after 10 epochs, at which point we would stop the training (patience = 10 epochs); or (ii) we reached a maximum number of epochs (which we never did). Stopping based on mAP@50-95 ensures that the final model is representative of the best possible generalization performance on new, unseen surfaces.

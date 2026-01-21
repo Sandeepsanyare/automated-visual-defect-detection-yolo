@@ -1,0 +1,107 @@
+\chapter{\textbf{Literature Review: }The Evolution of Automated Surface Defect Detection}
+
+\section{Introduction}
+The industrial manufacturing sector is currently undergoing a significant transformation as part of the fourth Industrial Revolution, or Industry 4.0 \cite{kagermann2013recommendations}. A central component of this new paradigm is the concept of Zero Defects Manufacturing (ZDM) \cite{psarommatis2020zero}. ZDM is designed to reduce waste and improve product quality through intelligent data-driven process control \cite{powell2022zero}.
+
+\textbf{Automated Surface Inspection (ASI) Systems:} ASI systems have progressed from being peripheral quality control mechanisms to being an integral part of the production process \cite{czimmermann2020visual}. These systems identify, locate and categorize surface anomalies on various materials including hot rolled steel strip and semiconductor wafers \cite{luo2020automated}. In terms of financial implications, defects such as "rolled in scale" and "crazing" can be used as stress concentrations that result in catastrophic failure of structures \cite{ciampoli2019defect}.
+
+In the past, manual inspection rarely achieved greater than 80\% reliability due to fatigue and attentional drift \cite{see2012visual}. Early automation systems that utilized Traditional Computer Vision (TCV) partially bridged the gap between manual inspection and reliable automated inspection \cite{malamas2003survey}. TCV however, was "brittle" in its ability to deal with stochastic manufacturing variation \cite{xie2020review}. Deep Learning (specifically Convolutional Neural Networks - CNNs) created a watershed moment in the history of computer vision, moving the focus from manual "feature engineering" to automatic "feature learning" \cite{lecun2015deep}.
+
+\section{Traditional Computer Vision Methods}
+Prior to the development of neural networks, defect detection relied heavily on statistical signal processing, assuming that a defect represented a local anomaly in an otherwise homogeneous texture \cite{xie2008review}.
+
+\subsection{Statistical Texture Analysis}
+Statistical Texture Analysis, particularly utilizing Gray-Level Co-occurrence Matrices (GLCM), was used to analyze continuous materials \cite{Haralick1973}. GLCMs represent the probability of the occurrence of combinations of pixel brightness values at specified spatial relationships \cite{haralick1979statistical}. Features such as Contrast (the amount of local variation), Homogeneity (the degree to which the distribution is close to diagonal), and Energy (textural uniformity) were used to describe a surface \cite{tuceryan1993texture}. However, although these methods were efficient to compute, they were sensitive to orientation changes and insensitive to microscopic defects that may not affect the global statistics \cite{neu-det}.
+
+\subsection{Spectral and Frequency Domain Methods}
+Frequency domain methods were developed to identify defects that manifested as high frequency interruptions \cite{tsai2010automated}.
+
+\begin{description}
+\item[Gabor Filters:] Gabor filters use a combination of a Gaussian kernel and a sinusoidal function to enable the system to identify defects based on their directionality characteristics (i.e. scratches) \cite{kumar2002defect}.
+\item[Wavelet Transformations:] Wavelets were also used to provide multi-resolution analysis, but unfortunately they were very sensitive to industrial noise (i.e. steam and oil mist) which often existed in the same frequency range as defects \cite{ghorai2013automatic}.
+\end{description}
+
+\section{Mechanisms of Deep Learning in Inspection}
+CNNs have revolutionized inspection by allowing them to learn hierarchical feature representations directly from raw pixel data \cite{zeiler2014visualizing}.
+
+\subsection{CNN Building Blocks}
+State of the art inspection focused CNNs are comprised of several key building blocks \cite{he2016deep}:
+\begin{itemize}
+\item \textbf{Convolutional Layers:} Convolutional layers are capable of detecting features ranging from basic edges to complex textures \cite{goodfellow2016deep}.
+\item \textbf{Activation Functions:} Activation functions such as SiLU offer better gradient flow than activation functions commonly used in traditional ReLU \cite{elfwing2018sigmoid}.
+\item \textbf{Backbones:} Architectures such as ResNet were the first to introduce skip connections to prevent vanishing gradients in deep networks \cite{he2016deep}.
+\end{itemize}
+
+\subsection{The Architectural Divide: Two-Stage vs. One-Stage}
+There are primarily two object detection phylogenies in the literature \cite{soviany2018curriculum}:
+\begin{description}
+\item[Two-Stage Detectors (e.g. Faster R-CNN):] Two-stage detectors operate in a "propose-and-verify" methodology \cite{Ren2017}. While they generally achieve high localization precision, they rarely exceed 10-15 FPS, which makes them unsuitable for high speed lines \cite{redmon2016you}.
+\item[One-Stage Detectors (e.g. YOLO):] One-stage detectors reframed detection as a single regression problem, mapping pixels directly to bounding box coordinates \cite{redmon2016you}. As a result, they can achieve speeds above 60 FPS, aligning with the demands of real time manufacturing \cite{jocher2023yolo}.
+\end{description}
+
+\subsection{Beyond Convolutions: The Vision Transformer (ViT) Paradigm}
+Although CNNs are very effective at detecting local features, they are less effective at modeling long-range dependencies \cite{dosovitskiy2020image}. Recent literature (2023-2025) has introduced Vision Transformers (ViTs) for use in industrial inspection \cite{liu2023survey}. Unlike CNNs, ViTs utilize Self-Attention (SA) mechanisms to correlate every pixel with every other pixel, thus enabling them to capture global context \cite{vaswani2017attention}.
+
+\textbf{Hybrid Architectures:} Pure Transformers generally lack the inductive bias for edges that CNNs contain \cite{wu2021cvt}. Consequently, current state-of-the-art research has shifted toward "Hybrid" models (e.g. Hybrid-DC), which combine ResNet style backbones with Transformer blocks to obtain higher accuracy on complex textures such as those found in steel \cite{lee2024hybriddc}.
+
+\textbf{Swin Transformers:} To address the computational costs associated with ViTs, Swin Transformers (Hierarchical Vision Transformers using Shifted Windows) have become a benchmark for achieving linear computational complexity, while maintaining global attention capabilities \cite{liu2021swin}.
+
+Although ViTs have resulted in increased accuracy, they tend to incur higher latency and memory usage when compared to CNN-based one-stage detectors \cite{li2022uniformer}. This validates the selection of YOLOv8 for this thesis as it is still the best option for real time edge applications where inference must be below 30 ms \cite{jocher2023yolo}.
+
+\section{Evolution of the YOLO Architecture}
+In terms of the development of the YOLO architecture itself, the YOLO paradigm has progressed very quickly through numerous versions, maintaining the balance between "bags of freebies" (improving accuracy without increasing the computational cost of inference) and "bags of specials" (making large improvements in accuracy but at a relatively minimal increase in computational cost) \cite{bochkovskiy2020yolov4, jocher2023yolo}.
+
+\subsection{The early stages (v1-v3)}
+YOLOv1 was the first version of the YOLO framework, combining object detection within a single neural network layer for each cell in a grid \cite{redmon2016you}. YOLOv2 built upon YOLOv1's success by using anchor boxes to improve the bounding box prediction \cite{redmon2017yolo9000}. Additionally, YOLOv3 improved upon the previous two versions by using a feature pyramid network (FPN) to make predictions at three different scales \cite{redmon2018yolov3}. This represented a major breakthrough for detecting defects of various sizes \cite{lin2017feature}.
+
+\subsection{Optimizations (v4-v5)}
+YOLOv4 included mosaic data augmentation and cross-stage partial (CSP) backbones to reduce gradient vanishing \cite{bochkovskiy2020yolov4}. YOLOv5 prioritized ease of use and provided auto-anchor for optimizing box priors for elongated industrial objects such as scratches \cite{jocher2020yolov5}.
+
+\subsection{Modern and state-of-the-art (v8-v11)}
+\begin{itemize}
+\item \textbf{YOLOv8 (released in 2023):} Represented a new era for the YOLO framework in the form of an anchor-free mechanism and decoupling of the head for classification and localization \cite{jocher2023yolo}.
+\item \textbf{YOLOv9 and v10:} Represented programmable gradient information (PGI) and NMS-free training respectively, although often at the price of either increased training complexity and/or potential redundancy in the clustering of defects \cite{redmon2017yolo9000,Wang2024}.
+\item \textbf{YOLO11 (late 2024):} Provided a new C2PSA module for spatial attention \cite{jocher2024yolo11}. Although showing promise, it still lacks the large amount of peer-reviewed validation and ecosystem stability that exists with the current YOLOv8 used for industrial deployments \cite{jocher2023yolo}.
+\end{itemize}
+
+\section{Key mechanisms in industrial detection}
+Applying generic detectors to industrial applications requires additional custom modules to address unique challenges associated with industrial detection, including high frequency background noise and microscopic defects \cite{tao2018automatic}.
+
+\subsection{Enhanced attention mechanisms}
+\begin{description}
+\item[Spatial Attention (C2PSA):] These are found in recent versions of YOLO and serve as learnable filters that can help remove background noise (such as light reflections) from images \cite{jocher2024yolo11,Wang2024}.
+\item[Coordinate Attention (CA):] More recent studies indicate that Coordinate Attention is better suited for identifying small defects (i.e., "pitting") than other forms of attention \cite{hou2021coordinate}. Coordinate Attention preserves spatial information lost when using typical pooling operations, and instead encodes spatial coordinates directly into channel attention, allowing the model to accurately locate the center of small anomalies \cite{hou2021coordinate}.
+\item[SimAM (Simple Attention Module):] SimAM is a parameter-free attention mechanism that has gained popularity for its application in fabric defect detection \cite{yang2021simam}. SimAM determines 3-Dimensional attention weights without learning any parameters, providing an advantage to be used in edge computing for both Nano and Small variant of YOLO \cite{yang2021simam}.
+\end{description}
+
+\subsection{Path aggregation}
+YOLOv8 uses a path aggregation network (PANet) to allow for the bidirectional flow of information among layers, enabling the model to identify both large cracks and microscopic pinholes (utilizing low-level spatial features) while also utilizing high-level semantic features \cite{liu2018path}.
+
+\section{Data-Centric AI and Anomaly Detection}
+Data collected in industrial environments is typically limited in size and highly imbalanced due to the rarity of defective parts \cite{johnson2019survey}. Thus, a comprehensive analysis of current AI technology for overcoming the "cold start" problem (when no examples of defective parts exist) is needed \cite{zhao2024fewshot}.
+
+\subsection{Benchmarks Datasets}
+\begin{itemize}
+\item \textbf{NEU-DET:} Primary literature dataset containing 1800 images of hot-rolled steel defects \cite{neu-det}.
+\item \textbf{GC10-DET \& Severstal:} Utilized for testing generalization and pixel-level segmentation, respectively \cite{lv2020deep}.
+\end{itemize}
+
+\subsection{Generative AI for data augmentation}
+Although techniques such as Mosaic and Mixup aid in combating the effects of data scarcity, the generative AI community has shifted towards Generative AI for the remainder of 2024 and 2025 \cite{zhang2023generative}:
+
+\begin{description}
+\item[GANs vs. Diffusion:] Generative Adversarial Networks (GANs) have historically been used to create synthesized defects \cite{goodfellow2014generative}. GANs however suffer from "mode collapse," and most recent research has transitioned to using Diffusion Models to "paint" realistic synthesized defects onto clean surfaces \cite{ho2020denoising}.
+\item[Diffusion Benefits:] Diffusion models provide the ability to generate high fidelity diverse textures to solve the "long-tail" distribution problem \cite{dhariwal2021diffusion}; however, they are much more computationally intensive than traditional augmentations \cite{dhariwal2021diffusion}.
+\end{description}
+
+\subsection{The Unsupervised Alternative: Anomaly Detection}
+One of the main drawbacks of supervised detectors such as YOLOv8 is the need for labeled defect data \cite{bergmann2019mvtec}. Research has shifted to focus on Unsupervised Anomaly Detection (UAD), which trains solely on "Golden" (defect-free) samples \cite{bergmann2019mvtec}.
+
+\begin{itemize}
+\item \textbf{Embedding-Based Methods:} Methods such as PatchCore utilize memory banks of locally aggregated features to determine anomalies based on the distance in feature space \cite{roth2022towards}.
+\item \textbf{Normalizing Flows:} Methods such as FastFlow map normal features to a standard distribution \cite{yu2021fastflow}; anomalies are identified when features do not map correctly \cite{rezende2015variational}.
+\item \textbf{Comparison to YOLO:} Although UAD addresses the labeling issue for supervised data, when there is enough data to train on, supervised methods (such as the YOLOv8 used in this work) have significantly higher performance in multiclass classification and localization precision \cite{Badmos2019}.
+\end{itemize}
+
+\section{Conclusion}
+Automated defect detection has transitioned from rigid mathematical heuristics (e.g., GLCM, Gabor) to flexible data driven deep learning \cite{lecun2015deep}. Although the "Semantic Gap" has been reduced by CNNs and ViTs, the current gold standard for practical deployment remains the supervised YOLO family \cite{jocher2023yolo}. Of all the YOLO versions, YOLOv8s represents the optimal theoretical "sweet spot" \cite{jocher2023yolo}. It combines the rich gradient flow of the C2f backbone with the precision of the anchor-free decoupled head and the necessary ecosystem maturity for reliable industrial implementation \cite{psarommatis2022zero}. Although newer architectures such as Transformers and UAD offer specific benefits, YOLOv8 provides the necessary reliability to meet the multi-class and real-time requirements of Zero-Defect Manufacturing \cite{psarommatis2020zero}.

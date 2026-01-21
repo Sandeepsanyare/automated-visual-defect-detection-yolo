@@ -1,0 +1,58 @@
+This is BibTeX, Version 0.99d (TeX Live 2025)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: main.aux
+The style file: plain.bst
+Database file #1: references.bib
+Warning--entry type for "yolov8" isn't style-file defined
+--line 726 of file references.bib
+Warning--empty journal in feng2021
+Warning--empty journal in ge2021yolox
+Warning--empty journal in gevorgyan2022
+Warning--empty journal in Han2019
+Warning--empty journal in Lin2014
+Warning--empty journal in simonyan2014
+Warning--empty journal in wang2023yolov7
+Warning--empty journal in wang2019
+Warning--empty journal in Wang2019a
+You've used 75 entries,
+            2118 wiz_defined-function locations,
+            832 strings with 14423 characters,
+and the built_in function-call counts, 21583 in all, are:
+= -- 1953
+> -- 1350
+< -- 1
++ -- 533
+- -- 452
+* -- 1335
+:= -- 3863
+add.period$ -- 218
+call.type$ -- 75
+change.case$ -- 416
+chr.to.int$ -- 0
+cite$ -- 84
+duplicate$ -- 800
+empty$ -- 1576
+format.name$ -- 452
+if$ -- 4360
+int.to.chr$ -- 0
+int.to.str$ -- 75
+missing$ -- 66
+newline$ -- 371
+num.names$ -- 150
+pop$ -- 502
+preamble$ -- 1
+purify$ -- 342
+quote$ -- 0
+skip$ -- 647
+stack$ -- 0
+substring$ -- 568
+swap$ -- 94
+text.length$ -- 1
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 298
+warning$ -- 9
+while$ -- 162
+width$ -- 77
+write$ -- 752
+(There were 10 warnings)

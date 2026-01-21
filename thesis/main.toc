@@ -1,0 +1,78 @@
+\contentsline {chapter}{\numberline {1}Introduction}{4}{chapter.1}%
+\contentsline {chapter}{\numberline {2}\textbf {Literature Review: }The Evolution of Automated Surface Defect Detection}{6}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Introduction}{6}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Traditional Computer Vision Methods}{7}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}Statistical Texture Analysis}{7}{subsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2.2}Spectral and Frequency Domain Methods}{7}{subsection.2.2.2}%
+\contentsline {section}{\numberline {2.3}Mechanisms of Deep Learning in Inspection}{7}{section.2.3}%
+\contentsline {subsection}{\numberline {2.3.1}CNN Building Blocks}{7}{subsection.2.3.1}%
+\contentsline {subsection}{\numberline {2.3.2}The Architectural Divide: Two-Stage vs. One-Stage}{8}{subsection.2.3.2}%
+\contentsline {subsection}{\numberline {2.3.3}Beyond Convolutions: The Vision Transformer (ViT) Paradigm}{8}{subsection.2.3.3}%
+\contentsline {section}{\numberline {2.4}Evolution of the YOLO Architecture}{9}{section.2.4}%
+\contentsline {subsection}{\numberline {2.4.1}The early stages (v1-v3)}{9}{subsection.2.4.1}%
+\contentsline {subsection}{\numberline {2.4.2}Optimizations (v4-v5)}{9}{subsection.2.4.2}%
+\contentsline {subsection}{\numberline {2.4.3}Modern and state-of-the-art (v8-v11)}{9}{subsection.2.4.3}%
+\contentsline {section}{\numberline {2.5}Key mechanisms in industrial detection}{10}{section.2.5}%
+\contentsline {subsection}{\numberline {2.5.1}Enhanced attention mechanisms}{10}{subsection.2.5.1}%
+\contentsline {subsection}{\numberline {2.5.2}Path aggregation}{10}{subsection.2.5.2}%
+\contentsline {section}{\numberline {2.6}Data-Centric AI and Anomaly Detection}{11}{section.2.6}%
+\contentsline {subsection}{\numberline {2.6.1}Benchmarks Datasets}{11}{subsection.2.6.1}%
+\contentsline {subsection}{\numberline {2.6.2}Generative AI for data augmentation}{11}{subsection.2.6.2}%
+\contentsline {subsection}{\numberline {2.6.3}The Unsupervised Alternative: Anomaly Detection}{11}{subsection.2.6.3}%
+\contentsline {section}{\numberline {2.7}Conclusion}{12}{section.2.7}%
+\contentsline {chapter}{\numberline {3}Justification for Choosing YOLOv8}{13}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Justification for Choosing YOLOv8, As Opposed to More Recent Versions}{13}{section.3.1}%
+\contentsline {subsection}{\numberline {3.1.1}Model Ecosystem and Hardware Support}{13}{subsection.3.1.1}%
+\contentsline {subsection}{\numberline {3.1.2}Tradeoffs in Newer Architectures}{14}{subsection.3.1.2}%
+\contentsline {subsection}{\numberline {3.1.3}Standardization to Facilitate Comparative Analysis}{14}{subsection.3.1.3}%
+\contentsline {chapter}{\numberline {4}Theory}{15}{chapter.4}%
+\contentsline {section}{\numberline {4.1}An Overview of AOI and One-Stage Detector Evolutions}{15}{section.4.1}%
+\contentsline {subsection}{\numberline {4.1.1}YOLO Architectural Developments for Use in Industry}{16}{subsection.4.1.1}%
+\contentsline {subsection}{\numberline {4.1.2}The Specialized Challenges of Defect Detection}{16}{subsection.4.1.2}%
+\contentsline {section}{\numberline {4.2}The Backbone: Feature Extraction Mechanics}{17}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}The C2f Module: Optimizing Gradient Flow}{17}{subsection.4.2.1}%
+\contentsline {subsubsection}{SP Design and Feature-Split Operations}{17}{section*.2}%
+\contentsline {subsection}{\numberline {4.2.2}Convolutional Modifications: From 6x6 to 3x3 Kernels}{18}{subsection.4.2.2}%
+\contentsline {subsection}{\numberline {4.2.3}Spatial Pyramid Pooling Fast (SPPF): Increasing the Receptive Field}{19}{subsection.4.2.3}%
+\contentsline {subsection}{\numberline {4.2.4}Lightweight Variants: GhostNet}{19}{subsection.4.2.4}%
+\contentsline {section}{\numberline {4.3}The Neck: Path Aggregation and Feature Fusion}{20}{section.4.3}%
+\contentsline {subsection}{\numberline {4.3.1}FPN and PANet Mechanics}{20}{subsection.4.3.1}%
+\contentsline {subsection}{\numberline {4.3.2}Dealing with Multi-Scale Defects}{21}{subsection.4.3.2}%
+\contentsline {section}{\numberline {4.4}The Head: Decoupled and Anchor-Free Detection}{21}{section.4.4}%
+\contentsline {subsection}{\numberline {4.4.1}The Decoupled Head Architecture}{22}{subsection.4.4.1}%
+\contentsline {subsection}{\numberline {4.4.2}Anchor-Free Detection}{22}{subsection.4.4.2}%
+\contentsline {section}{\numberline {4.5}Label Assignment}{23}{section.4.5}%
+\contentsline {subsection}{\numberline {4.5.1}The Transition from Static to Dynamic Label Assignment}{23}{subsection.4.5.1}%
+\contentsline {subsection}{\numberline {4.5.2}Mathematical Description of TAL}{23}{subsection.4.5.2}%
+\contentsline {section}{\numberline {4.6}Training Losses and Optimizer}{24}{section.4.6}%
+\contentsline {subsection}{\numberline {4.6.1}Binary Cross Entropy (BCE) Loss Function for Classification}{25}{subsection.4.6.1}%
+\contentsline {subsection}{\numberline {4.6.2}Complete Intersection Over Union (CIoU) Loss Function for Localization}{25}{subsection.4.6.2}%
+\contentsline {subsection}{\numberline {4.6.3}Distribution Focal Loss (DFL):}{26}{subsection.4.6.3}%
+\contentsline {section}{\numberline {4.7}Augmentation and Model Scaling}{27}{section.4.7}%
+\contentsline {subsection}{\numberline {4.7.1}Mosaic Augmentation}{27}{subsection.4.7.1}%
+\contentsline {subsection}{\numberline {4.7.2}Mixup Augmentation}{28}{subsection.4.7.2}%
+\contentsline {subsection}{\numberline {4.7.3}Model Scaling Parameters}{28}{subsection.4.7.3}%
+\contentsline {subsection}{\numberline {4.7.4}Flops vs. Performance Trade Off}{29}{subsection.4.7.4}%
+\contentsline {section}{\numberline {4.8}Domain-Specific Application Analysis}{29}{section.4.8}%
+\contentsline {subsection}{\numberline {4.8.1}Steel Surface Defect Detection}{29}{subsection.4.8.1}%
+\contentsline {subsection}{\numberline {4.8.2}Photovoltaic (PV) Cell Inspection}{30}{subsection.4.8.2}%
+\contentsline {subsection}{\numberline {4.8.3}Fabric and PCB Inspection}{30}{subsection.4.8.3}%
+\contentsline {section}{\numberline {4.9}Conclusion}{30}{section.4.9}%
+\contentsline {chapter}{\numberline {5}Optimization and Training Methodology}{32}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Phase 1: Bayesian Hyperparameter Search}{32}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Phase 2: High-Resolution Fine-Tuning}{33}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Hyperparameter Evolution}{33}{section.5.3}%
+\contentsline {section}{\numberline {5.4}Computational Efficiency}{33}{section.5.4}%
+\contentsline {chapter}{\numberline {6}Results and Performance Evaluation}{35}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Quantitative Metrics}{35}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Class-wise analysis}{36}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Stability of convergence}{36}{section.6.3}%
+\contentsline {section}{\numberline {6.4}Comparison with Other Models}{36}{section.6.4}%
+\contentsline {section}{\numberline {6.5}Qualitative Images}{36}{section.6.5}%
+\contentsline {chapter}{\numberline {7}Discussion: Shortcomings and Practical Challenges}{39}{chapter.7}%
+\contentsline {section}{\numberline {7.1}Shortcomings and Possible Failure Modes}{39}{section.7.1}%
+\contentsline {section}{\numberline {7.2}Hardware Limitations}{40}{section.7.2}%
+\contentsline {section}{\numberline {7.3}Ethical and Social Aspects}{40}{section.7.3}%
+\contentsline {chapter}{\numberline {8}Conclusion and Future Research}{41}{chapter.8}%
+\contentsline {section}{\numberline {8.1}Summary of Contributions}{41}{section.8.1}%
+\contentsline {section}{\numberline {8.2}Directions for Future Research}{41}{section.8.2}%

@@ -1,0 +1,152 @@
+\documentclass[12pt,a4paper]{report}
+
+% ------------------------------
+% Packages
+% ------------------------------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{setspace}
+\usepackage{graphicx}
+\usepackage{amsmath, amssymb}
+\usepackage{booktabs}
+\usepackage{url}
+\usepackage{caption}
+\usepackage{subcaption}
+
+% --- Paragraph Formatting ---
+\usepackage[parfill]{parskip} % Removes indentation
+\setlength{\parindent}{0pt}    % Ensures zero indentation
+\setlength{\parskip}{0.5cm}    % Sets space between paragraphs to 0.5cm
+
+% --- Navy Blue Link Styling ---
+\usepackage{xcolor} 
+\definecolor{navyblue}{RGB}{0, 0, 128} % Professional Navy Blue
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,      % Text is colored, not boxed
+    linkcolor=navyblue,   % Table of Contents and internal links
+    filecolor=navyblue,      
+    urlcolor=navyblue,    % Web links
+    citecolor=navyblue,   % Citation numbers (like [27] in your image)
+    pdfborder={0 0 0}     % Strictly removes any remaining red boxes
+}
+
+% Page layout
+\geometry{margin=1in}
+\setstretch{1.3}
+
+% ------------------------------
+% Document starts
+% ------------------------------
+\begin{document}
+
+\begin{titlepage}
+    \begin{center}
+        \setstretch{1.0}
+        
+        % --- University Logo (Smaller to fit on one page) ---
+        \includegraphics[width=0.20\textwidth]{images/arden_logo.png} 
+        \vspace{0.8cm}
+        
+        % --- Title Section (Fixed Overlap) ---
+        \begin{spacing}{1.4} % Space between lines to prevent overlap
+            {\huge \textbf{Advanced Industrial Defect Detection using Optuna-Optimized YOLOv8 Architecture with Tiling Inference}} 
+        \end{spacing}
+        
+        \vspace{1.0cm}
+        {\large by}
+        
+        \vspace{0.5cm}
+        {\Large \textbf{Sandeep Kumar}} \\
+        {\large (Student Number: STU230944)} 
+        
+        \vspace{1.5cm}
+        {\large An Advanced Computing Project submitted to the faculty of} \\
+        {\large \textbf{Arden University Berlin, Germany}} 
+        
+        \vspace{1.0cm}
+        {\large in accordance with the University’s Ethics Guidelines and} \\
+        {\large in partial fulfillment of the requirements for the degree of} 
+        
+        \vspace{0.8cm}
+        {\Large \textbf{Master of Science}} \\
+        {\large Faculty of Science, Technology, Engineering and Math (STEM)} 
+        
+        \vfill 
+        
+        \begin{tabular}{ll}
+            \textbf{Supervisor:} & Zingsho Vashum \\
+            \textbf{University:} & Arden University Berlin \\
+            \textbf{Submission Date:} & 21 January 2026 \\
+            \textbf{Word Count (Body):} & 8,656 \\
+            \textbf{Word Count (Headers):} & 333 \\
+            \textbf{Word Count (Captions):} & 40 \\
+            \textbf{Grand Total:} & 9,029
+        \end{tabular}
+        
+        \vspace{0.5cm}
+    \end{center}
+\end{titlepage}
+
+% Abstract
+\begin{abstract}
+Industrial surface defect detection is an important need in current industrial quality control processes. A complete system for detecting and categorizing 6 different kinds of metal surface defects has been developed by this research project as part of the YOLOv8s object detection architecture. Additionally, we propose a two-stage optimization approach that uses Bayesian Optimization with the Optuna framework to circumvent the constraints imposed by default hyperparameter settings. We also introduced a customized sliding window tiling technique to address high-resolution images typical to industrial environments while retaining all pixel detail. Trial 20 was our top performing model that had a mAP@50 of 0.985 and a mAP@50-95 of 0.827. The results show the reliability of our system over a range of morphological characteristics and illustrate the value of Bayesian Optimization for use in industrial deep learning systems.
+\end{abstract}
+\newpage
+\tableofcontents
+\newpage
+
+% ------------------------------
+% Main Content Sections
+% ------------------------------
+
+\input{sections/introduction.tex}
+\newpage
+
+\input{sections/literature_review.tex}
+\newpage
+
+\input{sections/justification.tex}
+\newpage
+
+\input{sections/theory.tex}
+\newpage
+
+\input{sections/system_design.tex}
+\newpage
+
+\input{sections/optimization.tex}
+\newpage
+
+\input{sections/results.tex}
+\newpage
+
+\input{sections/discussion.tex}
+\newpage
+
+\input{sections/conclusion.tex}
+
+% ------------------------------
+% References
+% ------------------------------
+\bibliographystyle{plain}
+\bibliography{references}
+%\begin{thebibliography}{9}
+
+%\bibitem{yolov8}
+%Jocher, G., Chaurasia, A., \& Qiu, J. (2023). \textit{Ultralytics YOLOv8}. \url{https://github.com/ultralytics/ultralytics}
+
+%\bibitem{optuna}
+%Akiba, T., Sano, S., Yanase, T., Ohta, T., \& Koyama, M. (2019). \textit{Optuna: A Next-generation Hyperparameter Optimization Framework}. KDD.
+
+%\bibitem{neu-det}
+%Song, K., \& Yan, Y. (2013). \textit{A noise robust method based on completed local binary patterns for hot-rolled steel strip surface defects}. Applied Surface Science.
+
+%\bibitem{industry4}
+%Lasi, H., Fettke, P., Kemper, H. G., Feld, T., \& Hoffmann, M. (2014). \textit{Industry 4.0}. Business \& Information Systems Engineering.
+
+%\end{thebibliography}
+
+\end{document}

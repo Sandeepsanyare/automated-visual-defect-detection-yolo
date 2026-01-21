@@ -1,0 +1,371 @@
+\begin{thebibliography}{10}
+
+\bibitem{Badmos2019}
+Olatomiwa Badmos, Andreas Kopp, Timo Bernthaler, and Gerhard Schneider.
+\newblock Image-based defect detection in lithium-ion battery electrode using convolutional neural networks.
+\newblock {\em Journal of Intelligent Manufacturing}, 31(4):885--897, August 2019.
+
+\bibitem{bergmann2019mvtec}
+Paul Bergmann et~al.
+\newblock Mvtec ad — a comprehensive real-world dataset for unsupervised anomaly detection.
+\newblock In {\em CVPR}, 2019.
+
+\bibitem{bochkovskiy2020yolov4}
+Alexey Bochkovskiy et~al.
+\newblock Yolov4: Optimal speed and accuracy of object detection.
+\newblock {\em arXiv preprint arXiv:2004.10934}, 2020.
+
+\bibitem{ciampoli2019defect}
+A~Ciampoli et~al.
+\newblock Defect detection and characterization in rolled products.
+\newblock {\em Procedia Structural Integrity}, 24, 2019.
+
+\bibitem{czimmermann2020visual}
+Tam{\'a}s Czimmermann et~al.
+\newblock Visual quality inspection and fine-grained defect detection: A survey.
+\newblock {\em IEEE Access}, 8, 2020.
+
+\bibitem{dhariwal2021diffusion}
+Prafulla Dhariwal and Alexander Nichol.
+\newblock Diffusion models beat gans on image synthesis.
+\newblock In {\em NeurIPS}, 2021.
+
+\bibitem{dosovitskiy2020image}
+Alexey Dosovitskiy et~al.
+\newblock An image is worth 16x16 words: Transformers for image recognition at scale.
+\newblock {\em ICLR}, 2020.
+
+\bibitem{elfwing2018sigmoid}
+Stefan Elfwing et~al.
+\newblock Sigmoid-weighted linear units for neural network function approximation in reinforcement learning.
+\newblock {\em Neural Networks}, 107, 2018.
+
+\bibitem{feng2021}
+Chengjian Feng, Yujie Zhong, Yu~Gao, Matthew~R. Scott, and Weilin Huang.
+\newblock Tood: Task-aligned one-stage object detection.
+\newblock August 2021.
+
+\bibitem{ge2021yolox}
+Zheng Ge, Songtao Liu, Feng Wang, Zeming Li, and Jian Sun.
+\newblock Yolox: exceeding yolo series in 2021.
+\newblock 2021.
+
+\bibitem{gevorgyan2022}
+Zhora Gevorgyan.
+\newblock Siou loss: More powerful learning for bounding box regression.
+\newblock May 2022.
+
+\bibitem{ghorai2013automatic}
+S.~Ghorai et~al.
+\newblock Automatic defect detection on hot-rolled flat steel products.
+\newblock {\em IEEE Transactions on Instrumentation and Measurement}, 62, 2013.
+
+\bibitem{goodfellow2016deep}
+Ian Goodfellow et~al.
+\newblock {\em Deep Learning}.
+\newblock MIT press, 2016.
+
+\bibitem{goodfellow2014generative}
+Ian Goodfellow et~al.
+\newblock Generative adversarial nets.
+\newblock In {\em NeurIPS}, 2023.
+
+\bibitem{Han2019}
+Kai Han, Yunhe Wang, Qi~Tian, Jianyuan Guo, Chunjing Xu, and Chang Xu.
+\newblock Ghostnet: More features from cheap operations.
+\newblock November 2019.
+
+\bibitem{haralick1979statistical}
+Robert~M Haralick.
+\newblock Statistical and structural approaches to texture.
+\newblock {\em Proceedings of the IEEE}, 67(5), 1979.
+
+\bibitem{Haralick1973}
+Robert~M. Haralick, K.~Shanmugam, and Its’Hak Dinstein.
+\newblock Textural features for image classification.
+\newblock {\em IEEE Transactions on Systems, Man, and Cybernetics}, SMC-3(6):610--621, November 1973.
+
+\bibitem{he2016deep}
+Kaiming He et~al.
+\newblock Deep residual learning for image recognition.
+\newblock In {\em CVPR}, 2016.
+
+\bibitem{He2015}
+Kaiming He, Xiangyu Zhang, Shaoqing Ren, and Jian Sun.
+\newblock Spatial pyramid pooling in deep convolutional networks for visual recognition.
+\newblock {\em IEEE Transactions on Pattern Analysis and Machine Intelligence}, 37(9):1904--1916, 2015.
+
+\bibitem{ho2020denoising}
+Jonathan Ho et~al.
+\newblock Riemannian denoising diffusion probabilistic models.
+\newblock In {\em NeurIPS}, 2025.
+
+\bibitem{hou2021coordinate}
+Qibin Hou et~al.
+\newblock Coordinate attention for efficient mobile network design.
+\newblock In {\em CVPR}, 2021.
+
+\bibitem{jocher2020yolov5}
+Glenn Jocher.
+\newblock Ultralytics yolov5.
+\newblock {\em GitHub repository}, 2020.
+
+\bibitem{yolov8}
+Glenn Jocher, Ayush Chaurasia, and Jing Qiu.
+\newblock Ultralytics yolov8, 2023.
+
+\bibitem{jocher2023yolo}
+Glenn Jocher, Ayush Chaurasia, and Jing Qiu.
+\newblock {YOLO} by {Ultralytics}.
+\newblock \url{https://github.com/ultralytics/ultralytics}, 2023.
+\newblock Accessed: 2023-01-19.
+
+\bibitem{jocher2024yolo11}
+Glenn Jocher et~al.
+\newblock Ultralytics yolo11.
+\newblock {\em GitHub repository}, 2024.
+\newblock https://github.com/ultralytics/ultralytics.
+
+\bibitem{johnson2019survey}
+Justin~M Johnson and Taghi~M Khoshgoftaar.
+\newblock Survey on deep learning with class imbalance.
+\newblock {\em Journal of Big Data}, 6, 2019.
+
+\bibitem{kagermann2013recommendations}
+Henning Kagermann, Wolfgang Wahlster, and Johannes Helbig.
+\newblock Recommendations for implementing the strategic initiative industrie 4.0.
+\newblock {\em Final report of the Industrie 4.0 Working Group}, 2013.
+
+\bibitem{kumar2002defect}
+A.~Kumar and G.K.H. Pang.
+\newblock Defect detection in textured materials using gabor filters.
+\newblock {\em IEEE Transactions on Industry Applications}, 38(2), 2002.
+
+\bibitem{lecun2015deep}
+Yann LeCun, Yoshua Bengio, and Geoffrey Hinton.
+\newblock Deep learning.
+\newblock {\em Nature}, 521, 2015.
+
+\bibitem{lee2024hybriddc}
+J.~Lee et~al.
+\newblock Hybrid-dc: A hybrid framework using resnet-50 and vision transformer for steel surface defect classification in the rolling process.
+\newblock {\em Electronics}, 13, 2024.
+
+\bibitem{li2022yolov6}
+Chuyi Li, Lulu Li, Hongliang Jiang, Kaiheng Weng, Yifei Geng, Liang Li, Zaidan Ke, Qingyuan Li, Meng Cheng, Weiqiang Nie, Yiduo Li, Bo~Zhang, Yufei Liang, Linyuan Zhou, Xiaoming Xu, Xiangxiang Chu, Xiaoming Wei, and Xiaolin Wei.
+\newblock Yolov6: A single-stage object detection framework for industrial applications, 2022.
+
+\bibitem{li2022uniformer}
+Kunchang Li et~al.
+\newblock Uniformer: Unifying convolution and self-attention for visual recognition.
+\newblock In {\em ICLR}, 2023.
+
+\bibitem{li2020}
+Xiang Li, Wenhai Wang, Lijun Wu, Shuo Chen, Xiaolin Hu, Jun Li, Jinhui Tang, and Jian Yang.
+\newblock Generalized focal loss: Learning qualified and distributed bounding boxes for dense object detection, 2020.
+
+\bibitem{lin2017feature}
+Tsung-Yi Lin et~al.
+\newblock Feature pyramid networks for object detection.
+\newblock In {\em CVPR}, 2017.
+
+\bibitem{Lin2014}
+Tsung-Yi Lin, Michael Maire, Serge Belongie, Lubomir Bourdev, Ross Girshick, James Hays, Pietro Perona, Deva Ramanan, C.~Lawrence Zitnick, and Piotr Dollár.
+\newblock Microsoft coco: Common objects in context.
+\newblock May 2014.
+
+\bibitem{liu2018path}
+Shu Liu et~al.
+\newblock Path aggregation network for instance segmentation.
+\newblock In {\em CVPR}, 2018.
+
+\bibitem{liu2023dream}
+Yanqing Liu, Jianyang Gu, Kai Wang, Zheng Zhu, Wei Jiang, and Yang You.
+\newblock {DREAM}: Efficient dataset distillation by representative matching.
+\newblock In {\em Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV)}, pages 17314--17324, 2023.
+
+\bibitem{liu2023survey}
+Z.~Liu et~al.
+\newblock A survey of vision transformers in industrial inspection.
+\newblock {\em IEEE Transactions on Industrial Informatics}, 2023.
+
+\bibitem{liu2021swin}
+Ze~Liu et~al.
+\newblock Swin transformer: Hierarchical vision transformer using shifted windows.
+\newblock In {\em ICCV}, 2021.
+
+\bibitem{luo2020automated}
+Quande Luo et~al.
+\newblock Automated vision-based surface defect detection: A review.
+\newblock {\em Journal of Intelligent Manufacturing}, 31, 2020.
+
+\bibitem{lv2020deep}
+X.~Lv et~al.
+\newblock Deep learning for surface defect detection on industrial products.
+\newblock {\em IEEE Transactions on Industrial Informatics}, 2020.
+
+\bibitem{malamas2003survey}
+E.N. Malamas et~al.
+\newblock A survey on industrial vision systems, applications and tools.
+\newblock {\em Image and Vision Computing}, 21(2), 2003.
+
+\bibitem{powell2022zero}
+Daryl Powell et~al.
+\newblock Zero defect manufacturing: A self-optimising perspective.
+\newblock {\em Computers in Industry}, 136, 2022.
+
+\bibitem{psarommatis2022zero}
+F.~Psarommatis et~al.
+\newblock Zero-defect manufacturing: Current state and future trends.
+\newblock {\em International Journal of Production Research}, 2022.
+
+\bibitem{psarommatis2020zero}
+Foivos Psarommatis et~al.
+\newblock Zero defect manufacturing: state-of-the-art review, shortcomings and future directions in research.
+\newblock {\em International Journal of Production Research}, 58(1), 2019.
+
+\bibitem{redmon2016you}
+Joseph Redmon, Santosh Divvala, Ross Girshick, and Ali Farhadi.
+\newblock You only look once: unified, real-time object detection, 2016.
+
+\bibitem{redmon2017yolo9000}
+Joseph Redmon and Ali Farhadi.
+\newblock Yolo9000: Better, faster, stronger, 2017.
+
+\bibitem{redmon2018yolov3}
+Joseph Redmon and Ali Farhadi.
+\newblock Yolov3: An incremental improvement.
+\newblock {\em arXiv preprint arXiv:1804.02767}, 2018.
+
+\bibitem{Ren2017}
+Shaoqing Ren, Kaiming He, Ross Girshick, and Jian Sun.
+\newblock Faster r-cnn: towards real-time object detection with region proposal networks.
+\newblock {\em IEEE Transactions on Pattern Analysis and Machine Intelligence}, 39(6), 2017.
+
+\bibitem{rezende2015variational}
+Danilo Rezende and Shakir Mohamed.
+\newblock Variational inference with normalizing flows.
+\newblock {\em ICML}, 2015.
+
+\bibitem{roth2022towards}
+Karsten Roth et~al.
+\newblock Towards total recall in industrial anomaly detection.
+\newblock In {\em CVPR}, 2022.
+
+\bibitem{see2012visual}
+J.E. See.
+\newblock Visual inspection reliability for precision manufactured parts.
+\newblock {\em Human Factors}, 54(6), 2015.
+
+\bibitem{simonyan2014}
+Karen Simonyan and Andrew Zisserman.
+\newblock Very deep convolutional networks for large-scale image recognition.
+\newblock September 2014.
+
+\bibitem{neu-det}
+Kechen Song and Yunhui Yan.
+\newblock A noise robust method based on completed local binary patterns for hot-rolled steel strip surface defects.
+\newblock {\em Applied Surface Science}, 285:858--864, 2013.
+
+\bibitem{soviany2018curriculum}
+Petru Soviany and Radu~Tudor Ionescu.
+\newblock Curriculum learning for two-stage object detection.
+\newblock {\em arXiv preprint}, 2018.
+
+\bibitem{tao2018automatic}
+Xian Tao et~al.
+\newblock Automatic metallic surface defect detection and recognition with convolutional neural networks.
+\newblock {\em Applied Sciences}, 8, 2018.
+
+\bibitem{Tong2023}
+Zanjia Tong, Yuhang Chen, Zewei Xu, and Rong Yu.
+\newblock Wise-iou: Bounding box regression loss with dynamic focusing mechanism, 2023.
+
+\bibitem{tsai2010automated}
+D.M. Tsai and C.Y. Hsieh.
+\newblock Automated surface inspection for statistical textures.
+\newblock {\em Image and Vision Computing}, 18, 2003.
+
+\bibitem{tuceryan1993texture}
+Mihran Tuceryan and Anil~K Jain.
+\newblock Texture analysis.
+\newblock {\em Handbook of pattern recognition and computer vision}, 1993.
+
+\bibitem{vaswani2017attention}
+Ashish Vaswani et~al.
+\newblock Attention is all you need.
+\newblock In {\em NeurIPS}, 2025.
+
+\bibitem{Wang2024}
+Ao~Wang, Hui Chen, Lihao Liu, Kai Chen, Zijia Lin, Jungong Han, and Guiguang Ding.
+\newblock Yolov10: Real-time end-to-end object detection, 2024.
+
+\bibitem{wang2023yolov7}
+Chien-Yao Wang, Alexey Bochkovskiy, and Hong-Yuan~Mark Liao.
+\newblock Yolov7: Trainable bag-of-freebies sets new state-of-the-art for real-time object detectors.
+\newblock July 2022.
+
+\bibitem{wang2019}
+Chien-Yao Wang, Hong-Yuan~Mark Liao, I-Hau Yeh, Yueh-Hua Wu, Ping-Yang Chen, and Jun-Wei Hsieh.
+\newblock Cspnet: A new backbone that can enhance learning capability of cnn.
+\newblock November 2019.
+
+\bibitem{Wang2019a}
+Jiaqi Wang, Kai Chen, Rui Xu, Ziwei Liu, Chen~Change Loy, and Dahua Lin.
+\newblock Carafe: Content-aware reassembly of features.
+\newblock May 2019.
+
+\bibitem{Woo2018}
+Sanghyun Woo, Jongchan Park, Joon-Young Lee, and In~So Kweon.
+\newblock Cbam: Convolutional block attention module, 2018.
+
+\bibitem{wu2021cvt}
+Haiping Wu et~al.
+\newblock Cvt: Introducing convolutions to vision transformers.
+\newblock In {\em ICCV}, 2021.
+
+\bibitem{xie2020review}
+L.~Xie et~al.
+\newblock A review of recent advances in surface defect detection using deep learning techniques.
+\newblock {\em Electronic Imaging}, 2020.
+
+\bibitem{xie2008review}
+X.~Xie.
+\newblock A review of classification algorithms for surface defect detection.
+\newblock {\em World Congress on Intelligent Control and Automation}, 2008.
+
+\bibitem{yang2021simam}
+Lingxiao Yang et~al.
+\newblock Simam: A simple, parameter-free attention module for convolutional neural networks.
+\newblock In {\em ICML}, 2021.
+
+\bibitem{yu2021fastflow}
+Jiawei Yu et~al.
+\newblock Fastflow: Unsupervised anomaly detection and localization via 2d normalizing flows.
+\newblock {\em arXiv preprint arXiv:2111.07677}, 2021.
+
+\bibitem{zeiler2014visualizing}
+Matthew~D Zeiler and Rob Fergus.
+\newblock Visualizing and understanding convolutional networks.
+\newblock {\em ECCV}, 2014.
+
+\bibitem{Zhang2017}
+Hongyi Zhang, Moustapha Cisse, Yann~N. Dauphin, and David Lopez-Paz.
+\newblock mixup: Beyond empirical risk minimization, 2017.
+
+\bibitem{zhang2023generative}
+J.~Zhang et~al.
+\newblock Generative ai for industrial anomaly detection.
+\newblock {\em arXiv preprint}, 2023.
+
+\bibitem{zhao2024fewshot}
+Y.~Zhao et~al.
+\newblock Few-shot defect detection: A survey.
+\newblock {\em Pattern Recognition}, 2024.
+
+\bibitem{Zheng2020}
+Zhaohui Zheng, Ping Wang, Wei Liu, Jinze Li, Rongguang Ye, and Dongwei Ren.
+\newblock Distance-iou loss: Faster and better learning for bounding box regression.
+\newblock {\em Proceedings of the AAAI Conference on Artificial Intelligence}, 34(07):12993--13000, April 2020.
+
+\end{thebibliography}
