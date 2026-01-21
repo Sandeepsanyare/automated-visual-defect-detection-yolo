@@ -110,7 +110,6 @@ def create_directory_structure(base_dir: str = '.') -> None:
     ]
     
     for directory in directories:
-        Path(base_dir) / directory
         os.makedirs(os.path.join(base_dir, directory), exist_ok=True)
     
     print("Directory structure created successfully!")

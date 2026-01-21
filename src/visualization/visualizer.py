@@ -257,7 +257,11 @@ class DefectVisualizer:
         classes = list(class_counts.keys())
         counts = list(class_counts.values())
         
-        bars = ax1.bar(classes, counts, color=self.colors[:len(classes)], alpha=0.7)
+        # Generate enough colors for all classes
+        colors_for_plot = self.colors[:len(classes)] if len(classes) <= len(self.colors) else self.colors * ((len(classes) // len(self.colors)) + 1)
+        colors_for_plot = colors_for_plot[:len(classes)]
+        
+        bars = ax1.bar(classes, counts, color=colors_for_plot, alpha=0.7)
         ax1.set_xlabel('Defect Class', fontsize=12)
         ax1.set_ylabel('Count', fontsize=12)
         ax1.set_title('Defect Class Distribution', fontsize=14, fontweight='bold')

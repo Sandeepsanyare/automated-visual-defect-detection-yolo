@@ -5,6 +5,7 @@ MSc Thesis - Arden University Berlin
 This module provides comprehensive evaluation metrics for defect detection models.
 """
 
+import os
 import numpy as np
 import pandas as pd
 from pathlib import Path
@@ -111,7 +112,6 @@ class DefectDetectionEvaluator:
             metrics: Dictionary containing metrics
             output_path: Path to save CSV file
         """
-        import os
         os.makedirs(os.path.dirname(output_path), exist_ok=True)
         
         # Overall metrics
@@ -157,7 +157,6 @@ class DefectDetectionEvaluator:
             metrics: Dictionary containing metrics
             output_path: Path to save plot
         """
-        import os
         os.makedirs(os.path.dirname(output_path), exist_ok=True)
         
         fig, ax = plt.subplots(figsize=(10, 6))
@@ -205,7 +204,6 @@ class DefectDetectionEvaluator:
             print("No per-class metrics available")
             return
         
-        import os
         os.makedirs(os.path.dirname(output_path), exist_ok=True)
         
         classes = list(metrics['per_class'].keys())
@@ -252,7 +250,6 @@ class DefectDetectionEvaluator:
         Returns:
             Confusion matrix as numpy array
         """
-        import os
         os.makedirs(os.path.dirname(output_path), exist_ok=True)
         
         cm = confusion_matrix(ground_truth, predictions, 

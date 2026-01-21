@@ -11,14 +11,14 @@ from pathlib import Path
 import sys
 
 # Add src to path
-sys.path.append(str(Path(__file__).parent.parent))
+sys.path.append(str(Path(__file__).parent))
 
-from models.defect_detector import DefectDetectionModel
-from utils.helpers import (
+from src.models.defect_detector import DefectDetectionModel
+from src.utils.helpers import (
     setup_logging, set_seed, load_config, 
     print_system_info, format_time, check_dataset_exists
 )
-from evaluation.metrics import DefectDetectionEvaluator
+from src.evaluation.metrics import DefectDetectionEvaluator
 
 
 def parse_args():
