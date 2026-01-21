@@ -1,0 +1,86 @@
+# Configuration file for Automated Visual Defect Detection System
+# MSc Thesis - Arden University Berlin
+
+# Model configuration
+model:
+  name: 'yolov8n'  # Options: yolov8n, yolov8s, yolov8m, yolov8l, yolov8x
+  pretrained: true
+  num_classes: 5  # Number of defect classes (adjust based on your dataset)
+  input_size: 640
+  confidence_threshold: 0.25
+  iou_threshold: 0.45
+
+# Training configuration
+training:
+  epochs: 100
+  batch_size: 16
+  learning_rate: 0.001
+  optimizer: 'Adam'
+  weight_decay: 0.0005
+  patience: 20  # Early stopping patience
+  save_period: 10  # Save model every N epochs
+  device: 'cuda'  # 'cuda' or 'cpu'
+  workers: 4
+  augmentation: true
+
+# Dataset configuration
+dataset:
+  train_path: 'data/processed/train'
+  val_path: 'data/processed/val'
+  test_path: 'data/processed/test'
+  img_format: 'jpg'
+  annotation_format: 'yolo'  # YOLO format txt files
+  
+# Defect classes (example - adjust based on your manufacturing domain)
+classes:
+  - 'scratch'
+  - 'crack'
+  - 'dent'
+  - 'contamination'
+  - 'misalignment'
+
+# Augmentation settings
+augmentation:
+  horizontal_flip: true
+  vertical_flip: false
+  rotation: 15
+  brightness: 0.2
+  contrast: 0.2
+  saturation: 0.2
+  hue: 0.01
+  scale: 0.5
+  translate: 0.1
+  mosaic: 1.0
+  mixup: 0.0
+
+# Paths
+paths:
+  data_root: 'data'
+  raw_data: 'data/raw'
+  processed_data: 'data/processed'
+  annotations: 'data/annotations'
+  models_dir: 'models'
+  pretrained_dir: 'models/pretrained'
+  trained_dir: 'models/trained'
+  results_dir: 'results'
+  logs_dir: 'logs'
+
+# Evaluation settings
+evaluation:
+  metrics:
+    - 'precision'
+    - 'recall'
+    - 'f1-score'
+    - 'mAP50'
+    - 'mAP50-95'
+  conf_matrix: true
+  save_predictions: true
+  
+# Visualization settings
+visualization:
+  show_labels: true
+  show_confidence: true
+  bbox_thickness: 2
+  font_scale: 0.5
+  save_images: true
+  output_format: 'jpg'
