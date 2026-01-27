@@ -3,9 +3,10 @@
 This research presents a high-precision, automated system for detecting and categorizing six distinct types of industrial metal surface defects: crazing, inclusion, patches, pitted surface, rolled-in scale, and scratches. By integrating the YOLOv8 architecture with a Bayesian Optimization framework (via Optuna), this project achieves a mAP@50 of 0.985 and a mAP@50-95 of 0.827.
 
 ## 📂 Project Structure & Data Access
+
 The primary dataset (5.3GB) is hosted externally due to its high-resolution nature and repository size constraints.
 
-Google Drive Link: 🔗 Full Dataset, Models, and Optuna Logs
+Google Drive: 🔗 Click here to access Full Dataset, Models, and Optuna Logs
 
 Local Directory Layout:
 
@@ -55,3 +56,4 @@ Student ID: stu230944
 Email: stu230944@ardenuniversity.ac.uk
 
 If you find this research useful for your work, please use the "Cite this repository" button in the sidebar.
+
