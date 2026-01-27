@@ -7,8 +7,7 @@ This research presents a high-precision, automated system for detecting and cate
 Project Structure & Data Access
 Due to the high-resolution nature of the dataset and the extensive weights generated during 95+ training epochs, the primary data is hosted externally to maintain repository efficiency.
 
-Google Drive Link: Full Dataset, Models, and Optuna Logs
-
+**Google Drive Link:** [Full Dataset, Models, and Optuna Logs](https://drive.google.com/drive/folders/1eKstN2mfJiM5ZFBpYg0UdJlgeEeezo3L?usp=sharing)
 Local Repository Layout:
 
 /src: Core implementation logic.
@@ -70,4 +69,5 @@ The full master's dissertation, titled "Industrial Surface Defect Detection via 
 
 ---
 *If you find this research useful for your work, please use the "Cite this repository" button in the sidebar.*
+
 
