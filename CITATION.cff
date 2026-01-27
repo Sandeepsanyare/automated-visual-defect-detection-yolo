@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+message: "If you use this software or the associated research, please cite it as follows."
+authors:
+  - family-names: "Kumar"
+    given-names: "Sandeep"
+    affiliation: "Arden University"
+    email: "stu230944@ardenuniversity.ac.uk"
+title: "Industrial Surface Defect Detection via Bayesian-Optimized YOLOv8"
+version: "1.0.0"
+date-released: 2026-01-27
+url: "https://github.com/Sandeepsanyare/automated-visual-defect-detection-yolo"
+repository-code: "https://github.com/Sandeepsanyare/automated-visual-defect-detection-yolo"
+abstract: >-
+  This research presents a high-precision, automated system for detecting and
+  categorizing six distinct types of industrial metal surface defects using 
+  YOLOv8 and Bayesian Optimization (Optuna).
+keywords:
+  - Computer Vision
+  - YOLOv8
+  - Optuna
+  - Bayesian Optimization
+  - Defect Detection
+  - Industrial Automation
+license: MIT
