@@ -24,7 +24,7 @@ The primary dataset (5.3GB) is hosted externally due to high-resolution data req
 └── pyproject.toml              # Dependency configuration via uv
 ```
 ---
-🚀 Reproduction Guide
+## 🚀 Reproduction Guide
 This project utilizes uv for lightning-fast dependency management.
 
 1. Environment Setup
@@ -42,7 +42,7 @@ To execute detection using the best-performing model (Trial 20):
 python src/main.py --weights models/best.pt --source data/test_images/
 ```
 
-📊 Results Summary
+## 📊 Results Summary
 The system demonstrates robust performance across variable lighting conditions and complex textures:
 Top Performing Trial: Trial 20 (Phase 2)
 
@@ -60,3 +60,4 @@ Student ID: stu230944
 Email: stu230944@ardenuniversity.ac.uk
 
 If you find this research useful for your work, please use the "Cite this repository" button in the sidebar.
+
