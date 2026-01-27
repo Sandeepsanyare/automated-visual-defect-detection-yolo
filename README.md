@@ -61,3 +61,14 @@ The full master's dissertation, titled "Industrial Surface Defect Detection via 
 
 Author: Sandeep Kumar Institution: Arden University Email: stu230944@ardenuniversity.ac.uk
 
+
+---
+## 🎓 Author Information
+
+**Author:** Sandeep Kumar  
+**Institution:** [Arden University](https://arden.ac.uk/)  
+**Student ID:** stu230944  
+**Email:** [stu230944@ardenuniversity.ac.uk](mailto:stu230944@ardenuniversity.ac.uk)
+
+---
+*If you find this research useful for your work, please use the "Cite this repository" button in the sidebar.*
