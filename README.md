@@ -4,12 +4,12 @@ This research presents a high-precision, automated system for detecting and cate
 
 ## 📂 Project Structure & Data Access
 
-The primary dataset (5.3GB) is hosted externally due to its high-resolution nature and repository size constraints.
+The primary dataset (5.3GB) is hosted externally due to high-resolution data requirements.
 
-Google Drive: 🔗 Click here to access Full Dataset, Models, and Optuna Logs
+* **Google Drive:** [🔗 Click here to access Full Dataset, Models, and Optuna Logs](https://drive.google.com/drive/folders/1eKstN2mfJiM5ZFBpYg0UdJlgeEeezo3L?usp=sharing)
 
-Local Directory Layout:
-
+### Local Directory Layout
+```text
 .
 ├── src/                        # Inference scripts and core logic
 ├── models/                     # Production-ready weights (.pt)
@@ -56,4 +56,5 @@ Student ID: stu230944
 Email: stu230944@ardenuniversity.ac.uk
 
 If you find this research useful for your work, please use the "Cite this repository" button in the sidebar.
+
 
