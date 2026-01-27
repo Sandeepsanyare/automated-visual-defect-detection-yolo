@@ -1,4 +1,6 @@
 Industrial Surface Defect Detection via Bayesian-Optimized YOLOv8
+
+
 Abstract
 This research presents a high-precision, automated system for detecting and categorizing six distinct types of industrial metal surface defects: crazing, inclusion, patches, pitted surface, rolled-in scale, and scratches. By integrating the YOLOv8 architecture with a Bayesian Optimization framework (via Optuna), this project circumvents the limitations of manual hyperparameter tuning. The implementation utilizes a customized sliding window tiling technique to process high-resolution industrial imagery while preserving pixel-level detail, ultimately achieving a mAP@50 of 0.985 and a mAP@50-95 of 0.827.
 
@@ -58,3 +60,4 @@ Dissertation
 The full master's dissertation, titled "Industrial Surface Defect Detection via Bayesian-Optimized YOLOv8," is available in the /thesis directory. It provides an in-depth literature review of traditional CV methods vs. deep learning, the evolution of the YOLO architecture, and a discussion on Zero Defect Manufacturing (ZDM).
 
 Author: Sandeep Kumar Institution: Arden University Email: stu230944@ardenuniversity.ac.uk
+
