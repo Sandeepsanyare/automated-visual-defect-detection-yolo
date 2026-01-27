@@ -59,8 +59,6 @@ mAP@50-95: 0.827.
 Dissertation
 The full master's dissertation, titled "Industrial Surface Defect Detection via Bayesian-Optimized YOLOv8," is available in the /thesis directory. It provides an in-depth literature review of traditional CV methods vs. deep learning, the evolution of the YOLO architecture, and a discussion on Zero Defect Manufacturing (ZDM).
 
-Author: Sandeep Kumar Institution: Arden University Email: stu230944@ardenuniversity.ac.uk
-
 
 ---
 ## 🎓 Author Information
@@ -72,3 +70,4 @@ Author: Sandeep Kumar Institution: Arden University Email: stu230944@ardenuniver
 
 ---
 *If you find this research useful for your work, please use the "Cite this repository" button in the sidebar.*
+
